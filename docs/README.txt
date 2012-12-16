@@ -14,13 +14,13 @@ Setting Up Your VHOST
 The following is a sample VHOST you might want to consider for your project.
 
 <VirtualHost *:80>
-   DocumentRoot "D:/www/TaskAllocatePro/public"
+   DocumentRoot "D:/www/TAPLocal/public"
    ServerName .local
 
    # This should be omitted in the production environment
    SetEnv APPLICATION_ENV development
 
-   <Directory "D:/www/TaskAllocatePro/public">
+   <Directory "D:/www/TAPLocal/public">
        Options Indexes MultiViews FollowSymLinks
        AllowOverride All
        Order allow,deny
