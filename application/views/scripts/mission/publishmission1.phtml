@@ -1,0 +1,57 @@
+<h1>发布一个单元测试</h1>
+<form
+	action="<?php echo $this->url(array('controller'=>'mission', 'action'=>'publishmission1')); ?>"
+	method="post" onsubmit="return _validate();">
+	<input type="hidden" name="missiontype" value="<?php echo 'unit';?>" />
+	<p>
+		任务名称
+		<input type="text" name="missionname" id="missionname" maxLength=40 />
+	</p>
+	<p>
+		价格区间<input type="number" name="lowprice" id="lowprice"></input>~
+		<input type="number" name="highprice" id="highprice"></input>元
+	</p>
+	<p>
+		申请截止日期<input type="datetime" name="applicationdate"
+			id="applicationdate"></input>
+	</p>
+	<p>
+		任务完成日期<input type="datetime" name="finishdate" id="finishdate"></input>
+	</p>
+	<p>
+		任务技术领域<input type="text" name="tecfield" id="tecfield"></input>
+	</p>
+	<p>任务简介：</p>
+	<textarea name="missioncontent" id="missioncontent" cols="" rows=""
+		onfocus="if (this.value=='不少于5个字') this.value='';">不少于5个字</textarea>
+
+	<input type="submit" name="submit" id="submit" value="发布">
+</form>
+
+
+<script>
+//验证表单是否为空
+function _validate(){
+	if(document.getElementById('missionname').value=="" || document.getElementById('lowprice').value=="" || document.getElementById('highprice').value=="" || 
+			 document.getElementById('applicationdate').value=="" || document.getElementById('finishdate').value=="" || 
+			 document.getElementById('tecfield').value=="" || document.getElementById('missioncontent').value==""){
+		alert("请输入完整信息");
+		return false;
+	}
+	//else if (document.getElementById('missionname').value.length )
+	else if(document.getElementById('lowprice').value >= document.getElementById('highprice').value) {
+		alert("请输入正确价格信息！");
+		return false;
+	}
+	else if(ocument.getElementById('lowprice').value < 0 || document.getElementById('highprice') >= 1000000) {
+
+		alert("请输入合理的价格信息！");
+		return false;
+	}
+	//else if(){
+		//正则表达式判断价格，日期是否输入标准
+	//}
+
+	return true;
+}
+</script>

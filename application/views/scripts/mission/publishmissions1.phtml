@@ -1,0 +1,67 @@
+<?php 
+foreach ($_SESSION['missionUnsolved'] as $m):?>
+
+<div>
+<form
+	action="<?php echo $this->url(array('controller'=>'mission', 'action'=>'publishmission1')); ?>"
+	method="post" onsubmit="return _validate<?php echo $m;?>();">
+	<h2><?php echo $this->escape($_SESSION['test_num_str'][$m]);?></h2>
+	<input type="hidden" name="missiontype" value="<?php echo $m;?>" />
+	<input type="hidden" name="fathermission" value="<?php echo $this->escape($_SESSION['fathermission']);?>" />
+	<p>
+		任务名称
+		<input type="text" name="missionname" id="<?php echo 'missionname'. $m;?>" maxLength=40 />
+	</p>
+	<p>
+		价格区间<input type="number" name="lowprice" id="<?php echo 'lowprice'. $m;?>" />~
+		<input type="number" name="highprice" id="<?php echo 'highprice'. $m;?>" />元
+	</p>
+	<p>
+		申请截止日期<input type="datetime" name="applicationdate"
+			id="<?php echo 'applicationdate'. $m;?>" />
+	</p>
+	<p>
+		任务完成日期<input type="datetime" name="finishdate" id="<?php echo 'finishdate'. $m;?>" />
+	</p>
+	<p>
+		任务技术领域<input type="text" name="tecfield" id="<?php echo 'tecfield'. $m;?>" />
+	</p>
+	<p>任务简介：</p>
+	<textarea name="missioncontent" id="<?php echo 'missioncontent'. $m;?>" cols="" rows=""
+		onfocus="if (this.value=='不少于5个字') this.value='';">不少于5个字</textarea>
+
+	<input type="submit" name="submit" id="submit" value="发布">
+</form>
+
+</div>
+
+<script>
+//验证表单是否为空
+function _validate<?php echo $m;?>(){
+	if(document.getElementById('missionname' + <?php echo $m;?>).value=="" || document.getElementById('lowprice' + <?php echo $m;?>).value=="" || document.getElementById('highprice' + <?php echo $m;?>).value=="" || 
+			 document.getElementById('applicationdate' + <?php echo $m;?>).value=="" || document.getElementById('finishdate' + <?php echo $m;?>).value=="" || 
+			 document.getElementById('tecfield' + <?php echo $m;?>).value=="" || document.getElementById('missioncontent' + <?php echo $m;?>).value==""){
+		alert("请输入完整信息");
+		return false;
+	}
+	//else if (document.getElementById('missionname' + <?php echo $m;?>).value.length )
+	else if(document.getElementById('lowprice' + <?php echo $m;?>).value >= document.getElementById('highprice' + <?php echo $m;?>).value) {
+		alert("请输入正确价格信息！");
+		return false;
+	}
+	else if(ocument.getElementById('lowprice' + <?php echo $m;?>).value < 0 || document.getElementById('highprice' + <?php echo $m;?>) >= 1000000) {
+
+		alert("请输入合理的价格信息！");
+		return false;
+	}
+	//else if(){
+		//正则表达式判断价格，日期是否输入标准
+	//}
+
+	return true;
+}
+</script>
+<?php endforeach;?>
+
+<a href="<?php echo $this->url(array('controller'=>'mission', 
+        'action'=>'success'));?>">Logon</a>

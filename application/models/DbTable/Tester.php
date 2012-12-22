@@ -8,7 +8,7 @@
  */
 
 require_once 'Zend/Db/Table/Abstract.php';
-class Tester extends Zend_Db_Table_Abstract {
+class Application_Model_DbTable_Tester extends Zend_Db_Table_Abstract {
 	/**
 	 * The default table name
 	 */
