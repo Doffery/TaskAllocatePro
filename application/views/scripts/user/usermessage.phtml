@@ -9,6 +9,10 @@
 <div>
 <hr />
 		<h3><?php echo $mp['Message_Title'];?></h3>
+		<a href="<?php echo $this->url(array('controller' => 'message',
+				 'action' => 'detail', 'messageid' => $mp['Message_ID']));
+		?>" target="_blank" style="float: right;">阅读</a>
+		
 		<?php if($mp['ReadOrnot']) {?>
 		<p>已读</p>
 		<?php } else {?>
@@ -23,19 +27,23 @@
 					 'action' => 'mission',
 					 'missionid' => $mp['Related_Mission_ID']));
 			?>"><?php echo $this->getMissionNameById($mp['Related_Mission_ID']);?></a>
-		<p><a href="<?php echo $this->url(array('controller' => 'message',
-				 'action' => 'detail', 'messageid' => $mp['Message_ID']));
-		?>" target="_blank">阅读</a>
-		</p>
+		
 </div>
 <?php endforeach;?>
 <a href="#">查看全部</a>
 </div>
 <div>
-	<h2>我发出的消息(最近一个月)</h2>
+<hr />
+<hr />
+	<h2>我发布的消息(最近一个月)</h2>
 <?php foreach ($this->messagePublish as $mr) :?>
 <div>
+<hr />
 		<h3><?php echo $mr['Message_Title'];?></h3>
+		
+		<a href="<?php echo $this->url(array('controller' => 'message',
+				 'action' => 'detail', 'messageid' => $mr['Message_ID']));
+		?>" target="_blank"  style="float: right;">查看</a>
 			消息发往：<a href="<?php echo $this->url(array('controller' => 'index',
 					 'action' => 'tester',
 					 'id' => $mr['Receiver_ID']));
@@ -47,9 +55,6 @@
 					 'missionid' => $mr['Related_Mission_ID']));
 			?>"><?php echo $this->getMissionNameById($mr['Related_Mission_ID']);?></a>
 		
-		<p><a href="<?php echo $this->url(array('controller' => 'message',
-				 'action' => 'detail', 'messageid' => $mr['Message_ID']));
-		?>" target="_blank">查看</a></p>
 </div>
 <?php endforeach;?>
 <a href="#">查看全部</a>

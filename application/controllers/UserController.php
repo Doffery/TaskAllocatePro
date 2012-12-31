@@ -123,6 +123,14 @@ class UserController extends Zend_Controller_Action {
     	$missionid = $this->_getParam('missionid');
     	$usermissiondb = new Application_Model_DbTable_UserMission();
     	$usermission = $usermissiondb->fetchRow('Mission_ID = '.$missionid);
+    	if(!$usermission) {
+    		$recorddb = new Application_Model_DbTable_Record();
+    		$rrecord = $recorddb->fetchRow('Mission_ID = '.$missionid);
+    		if($rrecord['Tester_Giventimingscore'] && $rrecord['Release_User'] == $_SESSION['userId'])
+    			$this->_redirect('/user/valuatetester?missionid='.$missionid);
+    		else if($rrecord)
+    			$this->_redirect('/index/mission?missionid='.$missionid);
+    	}
 		if($_SESSION['userId'] != $usermission['User_ID'])
 			$this->_helper->redirector('accessrefused', 'error');
     	
@@ -231,12 +239,12 @@ class UserController extends Zend_Controller_Action {
 				$resultrecord = $recorddb->insert($datarecord);
  
 				if($resultrecord) {
-					$testmissiondb->delete('Mission_ID = '.$missionid);
+					//$testmissiondb->delete('Mission_ID = '.$missionid);
 					
 					
 					$messagetitle = '您的测试任务完成报告通过了';
 					$messagecontent = '<div>
-			<p>请等待卖家联系付款！付过了吗？付过了那就去评价吧。</p></div>';
+			<p>请等待卖家联系付款！付过了吗？付过了那就填付款信息吧。</p></div>';
 					
 					$datam = array(
 							'Publisher_ID' => $_SESSION['userId'],
@@ -304,6 +312,28 @@ class UserController extends Zend_Controller_Action {
     	$response->append('userstate', $this->view->render('userstate.phtml'));
 
     	$this->view->title = '验收测试任务成功完成';
+    	
+	}
+	
+	
+	public function valuatetesterAction() {
+    	session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
+    	if(!$_SESSION['user'])
+			$this->_redirect('/logon/logon?backurl='.'/'.$this->_getParam('controller').'/'.$this->_getParam('action').'?missionid='.$this->_getParam('missionid'));
+
+    	$missionid = $this->_getParam('missionid');
+    	$usermissiondb = new Application_Model_DbTable_UserMission();
+    	$usermission = $usermissiondb->fetchRow('Mission_ID = '.$missionid);
+    	if($_SESSION['userId'] != $usermission['User_ID'])
+    		$this->_helper->redirector('accessrefused', 'error');
+    	
+    	
+    	
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
+
+    	$this->view->title = '评价测试人员';
+    	$this->view->notice = '您已经完善好了交易信息，请填个评价吧！';
     	
 	}
 }

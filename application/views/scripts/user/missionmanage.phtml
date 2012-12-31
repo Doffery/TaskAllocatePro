@@ -1,12 +1,11 @@
 <?php if($this->bidding == 1) {?>
-<p>竞标中!<a href="<?php echo $this->url(array('controller' => 'handlemission',
-		 'action' => 'applymission', 'missionid' => $this->missionid))?>">竞标</a></p>
+<p>竞标中!</p>
 <h2>提供解决方案的人</h2>
 <?php foreach ($this->applymission as $at) :?>
 <a href="<?php echo $this->url(array('controller'=>'index', 
         'action'=>'testerdetail', 'fordetail_testerid' => $at['Tester_ID'] ));?>"><?php echo $this->getAccountNameById($at['Tester_ID']);?></a>
 <?php endforeach;?>
-<?php } else {?>
+<?php } else if($this->testmission){?>
 <p>测试中！</p>
 <p>测试人员：<a href="<?php echo $this->url(array('controller' => 'index',
 					 'action' => 'testerdetail',
@@ -14,6 +13,9 @@
 			?>"><?php echo $this->getAccountNameById($this->testmission['Tester_ID']);?></a></p>
 			<a href="<?php echo $this->url(array('controller' => 'user', 'action'=>'missiondialy')); ?>">测试日志</a>
 			<a href="<?php echo $this->url(array('controller' => 'user', 'action'=>'missionfinalreport')); ?>">总结报告</a>
+<?php } else {?>
+<p>测试完成</p>
+<a href="<?php echo $this->url(array('controller' => 'user', 'action'=>'valuatetester', 'missionid' => $this->missionid)); ?>">去评价</a>
 <?php }?>
 
 

@@ -31,6 +31,7 @@
           <dbTableFile dbTableName="TestMission"/>
           <dbTableFile dbTableName="UserMission"/>
           <dbTableFile dbTableName="Message"/>
+          <dbTableFile dbTableName="Record"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>

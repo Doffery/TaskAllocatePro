@@ -24,8 +24,8 @@
           <dbTableFile dbTableName="Account"/>
           <dbTableFile dbTableName="User"/>
           <dbTableFile dbTableName="Mission"/>
-          <dbTableFile dbTableName="MissionDiary"/>
-          <dbTableFile dbTableName="TestDiary"/>
+          <dbTableFile dbTableName="MissionDialy"/>
+          <dbTableFile dbTableName="TestDialy"/>
           <dbTableFile dbTableName="Tester"/>
           <dbTableFile dbTableName="ApplyMission"/>
           <dbTableFile dbTableName="TestMission"/>

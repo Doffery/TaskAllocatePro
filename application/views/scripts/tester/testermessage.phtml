@@ -8,6 +8,10 @@
 <div>
 <hr />
 		<h3><?php echo $tmp['Message_Title'];?></h3>
+		<a href="<?php echo $this->url(array('controller' => 'message',
+				 'action' => 'detail', 'messageid' => $tmp['Message_ID']));
+		?>" target="_blank" style="float: right;">阅读</a>
+		
 		<?php if($tmp['ReadOrnot']) {?>
 		<p>已读</p>
 		<?php } else {?>
@@ -18,37 +22,37 @@
 					 'fordetail_userid' => $tmp['Publisher_ID']));
 			?>"><?php echo $this->getAccountNameById($tmp['Publisher_ID']);?></a>
 		消息发布时间：<?php echo $tmp['Publish_Time'];?>
-			相关任务：<a href="<?php echo $this->url(array('controller' => 'index',
-					 'action' => 'mission',
+			相关任务：<a href="<?php echo $this->url(array('controller' => 'tester',
+					 'action' => 'missionfulfil',
 					 'missionid' => $tmp['Related_Mission_ID']));
 			?>"><?php echo $this->getMissionNameById($tmp['Related_Mission_ID']);?></a>
-		<p><a href="<?php echo $this->url(array('controller' => 'message',
-				 'action' => 'detail', 'messageid' => $tmp['Message_ID']));
-		?>" target="_blank">阅读</a>
-		</p>
+		
 </div>
 <?php endforeach;?>
 <a href="#">查看全部</a>
 </div>
 <div>
-	<h2>我的动态(最近一个月)</h2>
+<hr />
+<hr />
+	<h2>我发布的消息(最近一个月)</h2>
 <?php foreach ($this->tmessagePublish as $tmr) :?>
 <div>
+<hr />
 		<h3><?php echo $tmr['Message_Title'];?></h3>
+		<a href="<?php echo $this->url(array('controller' => 'message',
+				 'action' => 'detail', 'messageid' => $tmr['Message_ID']));
+		?>" target="_blank" style="float: right;">查看</a>
 			消息发往：<a href="<?php echo $this->url(array('controller' => 'index',
 					 'action' => 'userdetail',
 					 'fordetail_userid' => $tmr['Receiver_ID']));
 			?>"><?php echo $this->getAccountNameById($tmr['Receiver_ID']);?></a>
 		          消息发布时间：<?php echo $tmr['Publish_Time'];?>
 		
-			相关任务：<a href="<?php echo $this->url(array('controller' => 'index',
-					 'action' => 'mission',
+			相关任务：<a href="<?php echo $this->url(array('controller' => 'tester',
+					 'action' => 'missionfulfil',
 					 'missionid' => $tmr['Related_Mission_ID']));
 			?>"><?php echo $this->getMissionNameById($tmr['Related_Mission_ID']);?></a>
 		
-		<p><a href="<?php echo $this->url(array('controller' => 'message',
-				 'action' => 'detail', 'messageid' => $tmr['Message_ID']));
-		?>" target="_blank">查看</a></p>
 </div>
 <?php endforeach;?>
 <a href="#">查看全部</a>

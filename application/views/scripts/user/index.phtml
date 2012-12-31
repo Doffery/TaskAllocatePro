@@ -30,8 +30,8 @@
 <?php foreach ($this->usermissions as $um) :?>
 		<tr>
 			<td><?php echo $this->escape($um['Mission_ID']);?></td>
-			<td><a href="<?php echo $this->url(array('controller'=>'index', 
-        'action'=>'mission', 'missionid' => $um['Mission_ID']));?>"><?php echo $this->escape($um['Mission_Name']);?></a></td>
+			<td><a href="<?php echo $this->url(array('controller'=>'user', 
+        'action'=>'missionmanage', 'missionid' => $um['Mission_ID']));?>"><?php echo $this->escape($um['Mission_Name']);?></a></td>
 			<td><?php echo $this->escape($_SESSION['test_num_str'][$um['Mission_State']]);?></td>
 			<td><?php echo $this->escape($um['Release_Time']);?></td>
 			<td><?php echo $this->escape($um['Father_Mission'])?$this->escape($um['Father_Mission']):'X';?></td>

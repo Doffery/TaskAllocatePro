@@ -115,6 +115,14 @@ class TesterController extends Zend_Controller_Action {
 		$missionid = $this->_getParam('missionid');
 		$testmissiondb = new Application_Model_DbTable_TestMission();
 		$testmission = $testmissiondb->fetchRow('Mission_ID = '. $missionid);
+    	if(!$testmission) {
+    		$recorddb = new Application_Model_DbTable_Record();
+    		$rrecord = $recorddb->fetchRow('Mission_ID = '.$missionid);
+    		if(!$rrecord['User_Givenscore'] && $rrecord['Tester'] == $_SESSION['testerId'])
+    			$this->_redirect('/tester/valuateuser?missionid='.$missionid);
+    		else if($rrecord)
+    			$this->_redirect('/index/mission?missionid='.$missionid);
+    	}
 		if($_SESSION['testerId'] != $testmission['Tester_ID'])
 			$this->_helper->redirector('accessrefused', 'error');
 		
@@ -292,6 +300,105 @@ class TesterController extends Zend_Controller_Action {
 		$response = $this->getResponse();
 		$response->append('userstate', $this->view->render('userstate.phtml'));
 		$this->view->title = "任务完成报告提交成功！";
+		
+	}
+
+	public function tradeinfoAction() {
+		session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
+		if(!$_SESSION['tester'])
+			$this->_helper->redirector('testerlogon', 'logon');
+		
+		$missionid = $this->_getParam('missionid');
+		$testmissiondb = new Application_Model_DbTable_TestMission();
+		$testmission = $testmissiondb->fetchRow('Mission_ID = '. $missionid);
+		if($_SESSION['testerId'] != $testmission['Tester_ID'])
+			$this->_helper->redirector('accessrefused', 'error');
+	
+		 
+		 
+		if($this->getRequest()->getPost())
+		{
+			$missiondb = new Application_Model_DbTable_Mission();
+			$mission = $missiondb->fetchRow('Mission_ID = '.$missionid);
+			if($_POST['price'] < $mission['Lowest_Price'])
+				$this->view->notice = '您的提交的价格低于您设定的最低价格！';
+			else {
+				$data = array(
+						'Price' => $_POST['price'],
+						'Finished_Time' => date('Y-m-d H:i:s')
+						);
+				$recorddb = new Application_Model_DbTable_Record();
+				$re = $recorddb->update($data, 'Mission_ID = '.$missionid);
+				if($re) {
+
+					$usermissiondb = new Application_Model_DbTable_UserMission();
+					$user = $usermissiondb->fetchRow('Mission_ID = '.$missionid);
+					
+					$resultdelete = $testmissiondb->delete('Mission_ID = '.$missionid);
+					//删测试日志
+					$usermissiondb->delete('Mission_ID = '.$missionid);
+					$missiondb->delete('Mission_ID = '.$missionid);
+					
+					$missiondialydb = new Application_Model_DbTable_MissionDialy();
+					$missiondialydb->delete('Test_Mission_ID = '.$missionid);
+					//////////////////////////////////////////////////////////////////////至此任务结束
+					
+					if($resultdelete) {
+	
+						$messagetitle = '测试人员已经上传了交易信息了';
+						$messagecontent = '<div>
+			<p>您可以去评价了！</p></div>';
+						$datam = array(
+								'Publisher_ID' => $_SESSION['testerId'],
+								'Receiver_ID' => $user['User_ID'],
+								'Related_Mission_ID' => $missionid,
+								'Publish_Time' => date('Y-m-d H:i:s'),
+								'Message_Title' => $messagetitle,
+								'Message_Content' => $messagecontent
+						);
+						$messagedb = new Application_Model_DbTable_Message();
+						$resultm = $messagedb->insert($datam);
+		
+						if($resultm)
+							$this->_redirect('/tester/valuateuser?missionid='.$missionid);
+					}
+				}
+				else
+					$this->_helper->redirector('dberror', 'error');
+			}
+		}
+		$this->view->missionid = $this->_getParam('missionid');
+		$this->view->title = '提交交易信息';
+		$response = $this->getResponse();
+		$response->append('userstate', $this->view->render('userstate.phtml'));
+	}
+	
+	public function valuateuserAction() {
+
+		session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
+		if(!$_SESSION['tester'])
+			$this->_helper->redirector('testerlogon', 'logon');
+
+		$missionid = $this->_getParam('missionid');
+		$recorddb = new Application_Model_DbTable_Record();
+		$record = $recorddb->fetchRow('Mission_ID = '.$missionid);
+		if($record['Tester'] != $_SESSION['testerId'])
+			$this->_helper->redirector('accessrefused', 'error');
+			
+		if(!$record['Price'])
+			$this->_redirect('/tester/tradeinfo?missionid='.$missionid);
+		//$this->_helper->redirector('tradeinfo');
+		if($record['User_Givenscore'])
+			$this->_redirect('/index/mission?missionid='.$missionid);
+		
+// 		$testmissiondb = new Application_Model_DbTable_TestMission();
+// 		$testmission = $testmissiondb->fetchRow('Mission_ID = '. $missionid);
+// 		if($_SESSION['testerId'] != $testmission['Tester_ID'])
+// 			$this->_helper->redirector('accessrefused', 'error');
+		
+		
+		$response = $this->getResponse();
+		$response->append('userstate', $this->view->render('userstate.phtml'));
 		
 	}
 }

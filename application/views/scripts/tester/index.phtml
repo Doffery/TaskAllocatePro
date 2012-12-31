@@ -20,8 +20,8 @@
 <?php foreach ($this->testermissions as $tum) :?>
 		<tr>
 			<td><?php echo $this->escape($tum['Mission_ID']);?></td>
-			<td><a href="<?php echo $this->url(array('controller'=>'index', 
-        'action'=>'mission', 'missionid' => $tum['Mission_ID']));?>"><?php echo $this->escape($tum['Mission_Name']);?></a></td>
+			<td><a href="<?php echo $this->url(array('controller'=>'tester', 
+        'action'=>'missionfulfil', 'missionid' => $tum['Mission_ID']));?>"><?php echo $this->escape($tum['Mission_Name']);?></a></td>
 			<td><?php echo $this->escape($_SESSION['test_num_str'][$tum['Mission_State']]);?></td>
 			<td><?php echo $this->escape($tum['Release_Time']);?></td>
 			<td><?php echo $this->escape($tum['Father_Mission'])?$this->escape($tum['Father_Mission']):'X';?></td>

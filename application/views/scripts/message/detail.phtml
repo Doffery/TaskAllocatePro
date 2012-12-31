@@ -17,7 +17,7 @@
 			?>"><?php echo $this->getAccountNameById($m['Receiver_ID']);?></a>
 			消息发布时间：<?php echo $this->message['Publish_Time'];?>
 			相关任务：<a href="<?php echo $this->url(array('controller' => 'index',
-					 'action' => 'mission', 'id' => $m['Related_Mission_ID']));?>"><?php echo $this->getMissionNameById($m['Related_Mission_ID']);?></a>
+					 'action' => 'mission', 'missionid' => $m['Related_Mission_ID']));?>"><?php echo $this->getMissionNameById($m['Related_Mission_ID']);?></a>
 		<h3>消息内容</h3>
 		<?php echo $this->message['Message_Content'];?>
 		<br />
