@@ -21,13 +21,16 @@
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
         <dbTableDirectory>
+          <dbTableFile dbTableName="Account"/>
           <dbTableFile dbTableName="User"/>
           <dbTableFile dbTableName="Mission"/>
           <dbTableFile dbTableName="MissionDiary"/>
           <dbTableFile dbTableName="TestDiary"/>
           <dbTableFile dbTableName="Tester"/>
+          <dbTableFile dbTableName="ApplyMission"/>
           <dbTableFile dbTableName="TestMission"/>
           <dbTableFile dbTableName="UserMission"/>
+          <dbTableFile dbTableName="Message"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
@@ -44,6 +47,8 @@
             <viewScriptFile forActionName="register"/>
           <viewControllerScriptsDirectory forControllerName="Index">
             <viewScriptFile forActionName="logon"/>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="checkregister"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

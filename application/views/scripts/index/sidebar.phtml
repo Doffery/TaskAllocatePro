@@ -1,0 +1,30 @@
+<div id="">
+<a href="<?php echo $this->url(array(
+								'controller'=>'publishmission',
+        						'action'=>'chooseredirector'));?>" id="publish">发布一个任务</a>
+</div>
+
+<div style="margin-top: 40px;">
+<h2 style="font-size: 10px;">新出炉的任务</h2>
+<p align="right" style="font-size: 8px; margin: -20px 40px 10px  -20px;"><a href="#">more</a></p>
+<?php foreach ($this->missionsnew as $um) :?>
+<div  style="float: left; margin-bottom: -20px;">
+	<hr style="margin-bottom: -5px; width: 200px;"/>
+	<div style="margin-bottom: -20px;">
+	<p style="font-size: 14px;"><a href="<?php echo $this->url(array('controller'=>'index', 'action'=>'mission',
+			 'missionid' => $um['Mission_ID']));?>"><?php echo $this->escape($um['Mission_Name']);?></a><span style="font-size: 10px;">[<?php echo $this->escape($um['Mission_ID']);?>]</span></p>
+	</div>
+	<div  style="float: left; margin-bottom: -20px;">
+	<p style="font-size: 15px; width: 200px;"><?php echo $this->escape($_SESSION['test_num_str'][$um['Mission_State']]);?>
+	<span style="font-size: 10px;"><?php echo $this->escape($um['Tec_Field']);?></span><span style="font-size: 16px; color: red; float: right;">N</span></p></div>
+	
+	<div align="left">
+	<div  style="float: left;">
+	<p style="font-size: 10px;">￥<?php echo $this->escape($um['Lowest_Price']);?>-￥<?php echo $this->escape($um['Highest_Price']);?>
+	<?php echo substr($this->escape($um['Release_Time']), 0, 10);?></p>
+	<?php $this->escape($um['Father_Mission'])?$this->escape($um['Father_Mission']):'X';?>
+	</div>
+	</div>
+</div>
+<?php endforeach;?>
+</div>

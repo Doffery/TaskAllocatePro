@@ -1,0 +1,9 @@
+增加testmission中测试申请时间Test_Apply_Time，测试任务达成时间Test_Get_Time
+
+增加mission中竞标中属性Bidding
+
+
+2.0
+增加account，message两张表。
+所有用户账号基本信息集成到account中。
+message用来用户间传递消息

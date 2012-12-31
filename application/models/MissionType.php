@@ -43,10 +43,6 @@ class MissionType {
 			17 => '其他测试'
 			);
 	
-	
-	public static function testNum($str) {
-		return $tests_num[$str];
-	}
 }
 
 ?>

@@ -1,0 +1,113 @@
+
+<form
+	action="<?php echo $this->url(array('controller'=>'publishmission', 'action'=>'publishmissions')); ?>"
+	method="post" onsubmit="_validate()">
+
+<!--	<input type="hidden" name="missionvisible" value="<?php echo $_SESSION['missionseperate'];?>" />
+	<input type="hidden" name="fathermission" value="<?php echo $this->escape($_SESSION['fathermission']);?>" />  -->
+
+	<p>系统测试名称<input type="text" name="missionname" id="missionname" maxLength=40 /></p>
+	
+	<p>任务分开发布<a href="<?php echo $this->url(array('controller'=>'publishmission',
+			 'action'=>'publishmissionsi')); ?>" title="切换后，您将分别需要发布您的小任务，这些任务一般会被不同的测试人员接受">切换</a></p>
+	
+	
+	<?php 
+		foreach ($_SESSION['missionUnsolved'] as $m):?>
+
+	<h2><?php echo $this->escape($_SESSION['test_num_str'][$m]);?></h2>
+<div id="mission<?php echo $m;?>">
+	<input type="hidden" name="missiontype<?php echo $m;?>" value="<?php echo $m;?>" />
+	<p>
+		任务名称
+		<input type="text" name="missionname<?php echo $m;?>" id="<?php echo 'missionname'. $m;?>" maxLength=40 />
+	</p>
+<div>
+	<p>
+		价格区间<input type="number" name="lowprice<?php echo $m;?>" id="<?php echo 'lowprice'. $m;?>" />~
+		<input type="number" name="highprice<?php echo $m;?>" id="<?php echo 'highprice'. $m;?>" />元
+	</p>
+	<p>
+		申请截止日期<input type="date" name="applicationdate<?php echo $m;?>"
+			id="<?php echo 'applicationdate'. $m;?>"  onclick="new Calendar().show(this);" readonly="readonly" />
+	</p>
+	<p>
+		任务完成日期<input type="date" name="finishdate<?php echo $m;?>" id="<?php echo 'finishdate'. $m;?>"  onclick="new Calendar().show(this);" readonly="readonly" />
+	</p>
+</div>
+<!--	<p>
+		任务技术领域<input type="text" name="tecfield<?php echo $m;?>" id="<?php echo 'tecfield'. $m;?>" />
+	</p> -->
+	<p>任务简介：</p>
+	<textarea name="missioncontent<?php echo $m;?>" id="<?php echo 'missioncontent'. $m;?>" cols="" rows=""
+		onfocus="if (this.value=='不少于5个字') this.value='';">不少于5个字</textarea>
+
+</div>
+	<input type="button" onclick="_validate<?php echo $m;?>()" value="确定" />
+<hr />
+<script>
+//验证表单是否为空
+function _validate<?php echo $m;?>(){
+	
+	if(document.getElementById('missionname<?php echo $m;?>').value=="" || document.getElementById('lowprice<?php echo $m;?>').value=="" || document.getElementById('highprice<?php echo $m;?>').value=="" || 
+			 document.getElementById('applicationdate<?php echo $m;?>').value=="" || document.getElementById('finishdate<?php echo $m;?>').value=="" || 
+			 document.getElementById('missioncontent<?php echo $m;?>').value==""){
+		alert("请输入完整信息");
+		return false;
+	}
+	//else if (document.getElementById('missionname<?php echo $m;?>').value.length )
+	else if(parseFloat(document.getElementById('lowprice<?php echo $m;?>').value) >= parseFloat(document.getElementById('highprice<?php echo $m;?>').value)) {
+		alert("请输入正确价格信息！");
+		return false;
+	}
+	else if(parseFloat(document.getElementById('lowprice<?php echo $m;?>').value) < 0 || parseFloat(document.getElementById('highprice<?php echo $m;?>').value >= 1000000)) {
+
+		alert("请输入合理的价格信息！");
+		return false;
+	}
+	//else if(){
+		//正则表达式判断价格，日期是否输入标准
+	//}
+	var obj=document.getElementById('mission<?php echo $m;?>');
+	obj.style.display=(obj.style.display == 'none')?'block':'none';
+	
+	return true;
+}
+
+
+</script>
+<?php endforeach;?>
+
+	<input type="submit" name="submit" id="submit" value="发布">
+        
+</form>
+
+<script>
+function _validate() {
+	<?php 
+			foreach ($_SESSION['missionUnsolved'] as $m):?>
+	if(document.getElementById('missionname<?php echo $m;?>').value=="" || document.getElementById('lowprice<?php echo $m;?>').value=="" || document.getElementById('highprice<?php echo $m;?>').value=="" || 
+			 document.getElementById('applicationdate<?php echo $m;?>').value=="" || document.getElementById('finishdate<?php echo $m;?>').value=="" || 
+			 document.getElementById('missioncontent<?php echo $m;?>').value==""){
+		alert("请输入完整信息");
+		return false;
+	}
+	//else if (document.getElementById('missionname<?php echo $m;?>').value.length )
+	else if(parseFloat(document.getElementById('lowprice<?php echo $m;?>').value) >= parseFloat(document.getElementById('highprice<?php echo $m;?>').value)) {
+		alert("请输入正确价格信息！");
+		return false;
+	}
+	else if(parseFloat(document.getElementById('lowprice<?php echo $m;?>').value) < 0 || parseFloat(document.getElementById('highprice<?php echo $m;?>').value >= 1000000)) {
+
+		alert("请输入合理的价格信息！");
+		return false;
+	}
+	//else if(){
+		//正则表达式判断价格，日期是否输入标准
+	//}
+
+	<?php endforeach;?>
+	return true;
+	
+}
+</script>

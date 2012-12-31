@@ -1,0 +1,46 @@
+
+<div>
+		<h2><?php $m = $this->message;
+		echo $m['Message_Title'];?></h2>
+		<?php if($m['ReadOrnot'] ) {?>
+		已读
+		<?php } else {?>
+		未读
+		<?php }?>
+			消息来源：<a href="<?php echo $this->url(array('controller' => 'index',
+					 'action' => 'tester',
+					 'id' => $m['Publisher_ID']));
+			?>"><?php echo $this->getAccountNameById($m['Publisher_ID']);?></a>
+			消息发往：<a href="<?php echo $this->url(array('controller' => 'index',
+					 'action' => 'tester',
+					 'id' => $m['Receiver_ID']));
+			?>"><?php echo $this->getAccountNameById($m['Receiver_ID']);?></a>
+			消息发布时间：<?php echo $this->message['Publish_Time'];?>
+			相关任务：<a href="<?php echo $this->url(array('controller' => 'index',
+					 'action' => 'mission', 'id' => $m['Related_Mission_ID']));?>"><?php echo $this->getMissionNameById($m['Related_Mission_ID']);?></a>
+		<h3>消息内容</h3>
+		<?php echo $this->message['Message_Content'];?>
+		<br />
+		<input type="button" onclick="_close()" value="确定"/>
+</div>
+<div>
+<?php if($m['Message_Title'] == '您收到一份任务申请') {?>
+<a href="<?php echo $this->url(array('controller'=>'handlemission', 
+        'action'=>'delivermission', 'missionid' => $m['Related_Mission_ID'],
+		 'testerid' => $m['Publisher_ID'], 'applytime' => $m['Publish_Time']));?>">交付！！</a>
+<?php } else if($m['Message_Title'] == '您的任务申请通过了') {?>
+<a href="<?php echo $this->url(array('controller'=>'tester', 
+        'action'=>'missionfulfil', 'missionid' => $m['Related_Mission_ID']));?>">去开始任务</a>
+<?php } else if($m['Message_Title'] == '您的任务申请没有通过') {?>
+<a href="<?php echo $this->url(array('controller'=>'index', 
+        'action'=>'index'));?>">逛逛！！</a>
+<?php } else if($m['Message_Title'] == '测试完成通告') {?>
+<a href="<?php echo $this->url(array('controller'=>'user', 
+        'action'=>'missionmanage', 'missionid' => $m['Related_Mission_ID']));?>">查看</a>
+<?php }?>
+</div>
+<script>
+			function _close() {
+				window.close();
+			}
+</script>

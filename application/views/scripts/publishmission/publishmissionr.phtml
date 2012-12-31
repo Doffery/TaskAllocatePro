@@ -1,0 +1,69 @@
+
+
+<form
+	action="<?php echo $this->url(array('controller'=>'publishmission', 'action'=>'publishmissionr')); ?>"
+	method="post" onsubmit="return _validate();">
+	<input type="hidden" name="missiontype" value="<?php echo 2;?>" />
+	<input type="hidden" name="missionvisible" value="<?php echo 1;?>" />
+	<table>
+		<tr>
+			<td><input type="checkbox" name="integration" id="integration" /></td>
+			<td>由多个单元测试或集成测试集成</td>
+		</tr>
+	</table>
+	<p>
+		任务名称
+		<input type="text" name="missionname" id="missionname" maxLength=40 />
+	</p>
+	<p>
+		价格区间<input type="number" name="lowprice" id="lowprice" />~
+		<input type="number" name="highprice" id="highprice" />元
+	</p>
+	<p>
+		申请截止日期<input type="date" name="applicationdate"
+			id="applicationdate"  onclick="new Calendar().show(this);" readonly="readonly" />
+	</p>
+	<p>
+		任务完成日期<input type="date" name="finishdate" id="finishdate"  onclick="new Calendar().show(this);" readonly="readonly" />
+	</p>
+ 	<p>
+		任务技术领域<input type="text" name="tecfield" id="tecfield" />
+	</p>
+	
+	
+	<p>任务简介：</p>
+	<textarea name="missioncontent" id="missioncontent" cols="" rows=""
+		onfocus="if (this.value=='不少于5个字') this.value='';">不少于5个字</textarea>
+
+	<input type="submit" name="submit" id="submit" value="确定" />
+</form>
+
+
+
+<script>
+
+//验证表单是否为空
+function _validate(){
+	if(document.getElementById('missionname').value=="" || document.getElementById('lowprice').value=="" || document.getElementById('highprice').value=="" || 
+			 document.getElementById('applicationdate').value=="" || document.getElementById('finishdate').value=="" || 
+			 document.getElementById('missioncontent').value==""){
+		alert("请输入完整信息");
+		return false;
+	}
+	//else if (document.getElementById('missionname').value.length )
+	else if(parseFloat(document.getElementById('lowprice').value) >= parseFloat(document.getElementById('highprice').value)) {
+		alert("请输入正确价格信息！");
+		return false;
+	}
+	else if(parseFloat(document.getElementById('lowprice')).value < 0 || parseFloat(document.getElementById('highprice').value >= 1000000)) {
+
+		alert("请输入合理的价格信息！");
+		return false;
+	}
+	//else if(){
+		//正则表达式判断价格，日期是否输入标准
+	//}
+
+	return true;
+}
+</script>

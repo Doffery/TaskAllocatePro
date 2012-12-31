@@ -1,0 +1,9 @@
+
+<p>任务：<?php echo $this->getMissionNameById($this->missionid);?></p>
+<p>交付：<?php echo $this->getAccountNameById($this->testerid);?></p>
+
+<form action="<?php echo $this->url(array('controller' => 'handlemission', 'action'=>'delivermission')); ?>"
+			name="form" method="post">
+<input type="hidden" name="mission" value="<?php echo $this->missionid;?>"/>
+<input type="submit" name="submit" value="确定"/>
+</form>

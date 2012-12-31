@@ -7,6 +7,11 @@ class IndexController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
     	$this->view->baseUrl = $this->_request->getBaseUrl();
+    	$response = $this->getResponse();
+    	$response->insert('footer', $this->view->render('footer.phtml'));
+    	$response->insert('menu', $this->view->render('menu.phtml'));
+    	$response->insert('userstate', $this->view->render('userstate.phtml'));
+    	$response->insert('searchbar', $this->view->render('searchbar.phtml'));
     	//session_start();
     	$tests_num = array (
     			'unit_test' => 1,
@@ -56,102 +61,397 @@ class IndexController extends Zend_Controller_Action
     {
         // action body
     	//$this->_forward('logon');
+//     	if($this->getRequest()->isPost())
+//     	$this->_helper->redirector(array('controller' => 'index', 'action' => 'mission',
+//     			 'params' => array('tester' => 'test')));
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
+ 		$this->view->title = 'Task Allocate Program';
+ 		
+ 		$missions = new Application_Model_DbTable_Mission();
+ 		$missionscompleted = $missions->getmissioncompleted($_SESSION['userId'], 10);
+ 		$this->view->missionscompleted = $missionscompleted;
+ 			
+ 		$missionstesting = $missions->getmissiontesting($_SESSION['userId'], 10);
+ 		$this->view->missionstesting = $missionstesting;
+ 		
+ 		$missionsnew = $missions->getmissionnew($_SESSION['userId'], 10);
+ 		$this->view->missionsnew = $missionsnew;
+ 		
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
+    }
+
+
+
+    public function findallprojectAction()
+    {
+    	 
+    	$searcher = new Application_Model_DbTable_Mission();
+    	$db = $searcher->getAdapter();
+    	//$where = $db->quoteInto("");
+    	$result = $searcher->fetchAll()->toArray();
+    	rsort($result);
+    	$this->view->result = $result;
+    	 
+    	if(count($result)!= 0 )
+    	{
+    
+    		$_SESSION['have_result'] = 'yes';
+    	}
+    	else
+    	{
+    		$_SESSION['have_result'] = 'no';
+    
+    	}
+    	 
     }
     
-    public function logonAction() {
-        if($_SESSION['user'] != null) {
-    		$this->_helper->redirector('success');
-    		return;
-        }
-        if ($this->getRequest()->isPost()) {
-        		
-	    	$username = trim($this->_request->getPost('username'));
-	    	$password = trim($this->_request->getPost('password'));
-	//     	echo 'username'.$username;
-	//     	echo 'password'.$password;
-	    	if($username!=null&&$password!=null){
-	    		$login = new Application_Model_DbTable_User();
-	    		$db = $login->getAdapter();
-	    		$where = $db->quoteInto('User_Name=?',$username)
-	    		.$db->quoteInto('And Password=?',$password);
-	    		$result = $login->fetchRow($where);
-	    		if($result){
-	    			session_start();		//调用session_start()函数，声明session
-	    			$_SESSION['user']=$_POST['username'];				//定义session变量
-	    			$_SESSION['userId'] = $result->__get('User_ID');
-	    			$this->_helper->redirector('success');
-	    		}else{
-	    			$where = $db->quoteInto('User_Email=?',$username)
-	    			.$db->quoteInto('And Password=?',$password);
-	    			$result = $login->fetchRow($where);
-		    		if($result){
-		    			session_start();		//调用session_start()函数，声明session
-		    			$_SESSION['user']=$_POST['username'];				//定义session变量
-	    				$_SESSION['userId'] = $result->__get('User_ID');
-	    				$this->_helper->redirector('success');
-		    		}else{
-		    			$this->view->ttt = "您输入的信息有误";
-		    			//$this->_helper->redirector('logon');
-		    			//$this->_redirect('blog/login');
-	    			}
-	    		}
-	    	}else{
-	    		$this->view->ttt = "登陆失败";
-		    	//$this->_helper->redirector('logon');
-	    		//$this->_redirect('blog/login');
-	    	}
+    
+    public function findalluserAction()
+    {
+    
+    	$searcher = new Application_Model_DbTable_Account();
+    	$db = $searcher->getAdapter();
+    	$where = $db->quoteInto("Account_ID in (select User_ID from user)");
+    	$result = $searcher->fetchAll($where)->toArray();
+    	rsort($result);
+    	$this->view->result = $result;
+    	if(count($result)!= 0 )
+    	{
+    		 
+    		$_SESSION['have_result'] = 'yes';
+    	}
+    	else
+    	{
+    		$_SESSION['have_result'] = 'no';
+    		 
+    	}
+    }
+    
+    public function findalltesterAction()
+    {
+    	$searcher = new Application_Model_DbTable_Account();
+    	$db = $searcher->getAdapter();
+    	$where = $db->quoteInto("Account_ID in (select Tester_ID from tester)");
+    	$result = $searcher->fetchAll($where)->toArray();
+    	rsort($result);
+    	$this->view->result = $result;
+    	if(count($result)!= 0 )
+    	{
+    		 
+    		$_SESSION['have_result'] = 'yes';
+    	}
+    	else
+    	{
+    		$_SESSION['have_result'] = 'no';
+    		 
+    	}
+    }
+    
+    public function findallrecordAction()
+    {
+        $searcher = new Application_Model_DbTable_Record();
+   	    $db = $searcher->getAdapter();	
+    	$result = $searcher->fetchAll()->toArray();
+    	rsort($result);
+    	$this->view->result = $result;
+    	
+    	if(count($result)!= 0 )
+    	{
+    		$_SESSION['have_result'] = 'yes';
+    	}
+    	else
+    	{
+    		 
+    		$_SESSION['have_result'] = 'no';
+    		
+    	}
+    
+    
+    }
+
+    public function searchAction()
+    {
+    	session_start();
+    	if ($this->getRequest()->isPost()) {
+    
+    		$keyword = trim($_POST['key']);
+    		$selected = trim($_POST['selected']);
+    		 
+    		
+    		if($selected == 'ForRecord')                 //如果是找用户
+    		{
+    			$_SESSION['selected'] = 'ForRecord';
+    			$_SESSION['keyword'] = $keyword;
+    			$this->_helper->redirector('searchrecord');
+    		}
+    
+    		if($selected == 'ForUser')                 //如果是找用户
+    		{
+    			$_SESSION['selected'] = 'ForUser';
+    			$_SESSION['keyword'] = $keyword;
+    			$this->_helper->redirector('searchuser');
+    		}
+    		 
+    		if($selected == 'ForTester')                 //如果是找用户
+    		{
+    			$_SESSION['selected'] = 'ForTester';
+    			$_SESSION['keyword'] = $keyword;
+    			$this->_helper->redirector('searchtester');
+    			 
+    		}
+    		 
+    		 
+    		if($selected == 'ForMission')                 //如果是找用户
+    		{
+    			$_SESSION['selected'] = 'ForMission';
+    			$_SESSION['keyword'] = $keyword;
+    			$this->_helper->redirector('searchmission');
+    		}
+    
+    		if($selected == 'ForRecord')
+    		{
+    		}
     	}
     
     }
     
-    public function registerAction() {
-    				//$this->view->ttt = '啊大法师地方';
-    	if(strtolower($_SERVER['REQUEST_METHOD'])=='post'){
-    	//$this->_forward('register'); return ;
-    		$username = $this->_request->getParam('username');
-    		$password = $this->_request->getParam('password');
-    		$email = $this->_request->getParam('email');
-    		$user = new Application_Model_DbTable_User();
-    		if($username!=null&&$password!=null){
-    			if($user->checkUnique($username, $email)){
-    				//$this->_helper->redirector('register');
-    				$this->view->ttt = '账户名或邮箱已经被注册~~';
-    			}else{
-				    $data = array(
-			            'User_Name' => $username,
-					    'User_Email' => $email,
-					    'Password' => $password,
-					    'Submittedmission_counts' => 0,
-					    'User_Averagescore' => 0
-			        );
-    				$result = $user->insert($data);
-    				if($result){
-// 		    			session_start();		//调用session_start()函数，声明session
-// 		    			$_SESSION['user']=$_POST['username'];				//定义session变量
-//     					$this->_helper->redirector('success');
-
-    					$this->_helper->redirector('logon');
-    				}else{
-    					$this->view->ttt = '出错啦，重新注册下咯';
-    					//$this->_helper->redirector('register');
-    				}
-    			}
-    		}else{
-    			$this->view->ttt = '请填写完成信息';
-    			//$this->_helper->redirector('register');
-    		}
-     	}
+    
+    public function searchrecordAction()
+    {
+    	session_start();
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
+    	
+    	$keyword = $_SESSION['keyword'];
+    	$selected = $_SESSION['selected'];
+    	 
+    	if($selected == 'ForRecord')
+    	{
+    	
+    		$searcher = new Application_Model_DbTable_Record();
+    		$db = $searcher->getAdapter();
+    		$where = $db->quoteInto("Mission_Name Like '%$keyword%' or Release_User Like '%$keyword%'");       //根据mission_about来查询
+    		$result = $searcher->fetchAll($where)->toArray();
+    		rsort($result);
+    		$this->view->result = $result;
+    	}
+    	if(count($result)!= 0 )
+    	{
+    		$_SESSION['have_result'] = 'yes';
+    	}
+    	else
+    	{
+    	
+    		$_SESSION['have_result'] = 'no';
+    		$messagesorry = '对不起，没有找到与  '.$keyword.'  相关的记录';
+    		$this->view->message = $messagesorry;
+    	}
+    	
+    	
     }
-
-    public function successAction() {
-    	//echo 
+     
+    public function searchmissionAction()
+    {
+    	session_start();
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
+    
+    	$keyword = $_SESSION['keyword'];
+    	$selected = $_SESSION['selected'];
+    	
+    	if($selected == 'ForMission')
+    	{
+    
+    		$searcher = new Application_Model_DbTable_Mission();
+    		$db = $searcher->getAdapter();
+    		$where = $db->quoteInto("Mission_About Like '%$keyword%' or Mission_Name Like '%$keyword%'");       //根据mission_about来查询
+    		$result = $searcher->fetchAll($where)->toArray();
+    		rsort($result);
+    		$this->view->result = $result;
+    	}
+    	if(count($result)!= 0 )
+    	{
+    		$_SESSION['have_result'] = 'yes';
+    	}
+    	else
+    	{
+    
+    		$_SESSION['have_result'] = 'no';
+    		$messagesorry = '对不起，没有找到与  '.$keyword.'  相关的内容';
+    		$this->view->message = $messagesorry;
+    	}
+    	 
+    }
+     
+    
+    public function searchuserAction()
+    {
+    	session_start();
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
+    
+    	$keyword = $_SESSION['keyword'];
+    	$selected = $_SESSION['selected'];
+    	 
+    	if($selected == 'ForUser')
+    	{
+    		$searcher = new Application_Model_DbTable_Account();
+    		$db = $searcher->getAdapter();
+    		$where = $db->quoteInto("(Account_Name Like '%$keyword%' or Self_Discription Like '%$keyword%') and Account_ID in (select User_ID from user)");
+    		$result = $searcher->fetchAll($where)->toArray();
+    		rsort($result);
+    		$this->view->result = $result;
+    
+    	}
+    	 
+    	if(count($result)!= 0 )
+    	{
+    		$_SESSION['have_result'] ='yes';
+    	}
+    	else
+    	{
+    		$_SESSION['have_result'] = 'no';
+    		$messagesorry = '对不起，没有找到与  '.$keyword.'  相关的内容';
+    		$this->view->message = $messagesorry;
+    	}
+    	 
+    
+    	 
+    }
+    
+    public function searchtesterAction()
+    {
+    	session_start();
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
+    	$keyword = $_SESSION['keyword'];
+    	$selected = $_SESSION['selected'];
+    	 
+    	if($selected == 'ForTester')
+    	{
+    		$searcher = new Application_Model_DbTable_Account();
+    		$db = $searcher->getAdapter();
+    		$where = $db->quoteInto("Account_Name Like '%$keyword%' and Account_ID in (select Tester_ID from tester)");
+    		$result = $searcher->fetchAll($where)->toArray();
+    		rsort($result);
+    		$this->view->result = $result;
+    
+    	}
+    	if(count($result)!= 0 )
+    	{
+    		 
+    		$_SESSION['have_result'] = 'yes';
+    
+    	}
+    	else
+    	{
+    		$_SESSION['have_result'] = 'no';
+    		$messagesorry = '对不起，没有找到与  '.$keyword.'  相关的内容';
+    		$this->view->message = $messagesorry;
+    	}
+    }
+    
+    public function missionAction() {
     	session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
-    	if(!$_SESSION['user'])
-    		$this->_helper->redirector('logon');
-    		
-         else $this->view->user = $_SESSION['user'];
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
+    	
+    	//$this->view->t = $this->_getParam('missionid');
+    	
+    	$missiondb = new Application_Model_DbTable_Mission();
+    	$mission = $missiondb->fetchRow('Mission_ID = '.$this->_getParam('missionid'));
+
+    	$this->view->visible = $mission['Visible'];
+    	if($mission['Visible'] == 0) {
+    		//提示登录
+    		//$_SESSION[]
+    		$this->_helper->redirector('accessrefused', 'error');
+    	}
+    	
+    	$testerdb = new Application_Model_DbTable_Tester();
+    	$this->view->applytester = $testerdb->getApplyTesterAccount($mission['Mission_ID']);
+    	
+    	$this->view->missionid = $mission['Mission_ID'];
+    	$this->view->title = $mission['Mission_Name'];
+    	$this->view->lowprice = $mission['Lowest_Price'];
+    	$this->view->highprice = $mission['Highest_Price'];
+    	$this->view->missiontype = $_SESSION['test_num_str'][$mission['Mission_State']];
+    	$this->view->missioncontent = $mission['Mission_Content'];
+    	$this->view->missionabout = $mission['Mission_About'];
+    	$this->view->tecfield = $mission['Tec_Field'];
+    	$this->view->applydeadline = $mission['Apply_Deadline'];
+    	$this->view->finishdeadline = $mission['Finish_Deadline'];
+    	$this->view->releasetime = $mission['Release_Time'];
+    	$this->view->bidding = $mission['Bidding'];
+    	$this->view->fathermission = $mission['Father_Mission'];
+    	$this->view->premission = $mission['Pre_Mission'];
     }
-
-
+    
+    
+    
+    public function userdetailAction()
+    {
+    	$userid = $this->_getParam('fordetail_userid');
+    	
+    	$searcher = new Application_Model_DbTable_Account();
+    	$db = $searcher->getAdapter();
+    	$where = $db->quoteInto("Account_ID = ?",$userid);
+    	$result = $searcher->fetchRow($where)->toArray();
+    	$this->view->useraccount = $result;
+    	
+    	$searcher1 = new Application_Model_DbTable_User();
+    	$db1 = $searcher1->getAdapter();
+    	$where1 = $db1->quoteInto("User_ID = ?",$userid);
+    	$result1 = $searcher1->fetchRow($where1)->toArray();
+    	$this->view->useralone = $result1;
+    	
+    	
+    }
+    
+    public function testerdetailAction()
+    {
+    	 $testerid = $this-> _getParam('fordetail_testerid');
+    	
+    	$searcher = new Application_Model_DbTable_Account();
+    	$db = $searcher->getAdapter();
+    	$where = $db->quoteInto("Account_ID = ?",$testerid);
+    	$result = $searcher->fetchRow($where)->toArray();
+    	$this->view->testeraccount = $result;
+    	
+    	
+    	$searcher1 = new Application_Model_DbTable_Tester();
+    	$db1 = $searcher1->getAdapter();
+    	$where1 = $db1->quoteInto("Tester_ID = ?",$testerid);
+    	$result1 = $searcher1->fetchRow($where1)->toArray();
+    	$this->view->testeralone = $result1;
+    	 
+    }
+    
+    
+    public function missiondetailAction()
+    {
+    	 $missionid = $this->_getParam('fordetail_missionid');
+    	 
+    	 $searcher = new Application_Model_DbTable_Mission();
+    	 $db = $searcher->getAdapter();
+    	 $where = $db->quoteInto("Mission_ID = ?",$missionid);       //根据mission_about来查询
+    	 $result = $searcher->fetchRow($where)->toArray();
+    	 $this->view->missionalone= $result;
+    	 
+    	 $searcher1 = new Application_Model_DbTable_UserMission();
+    	 $db1 = $searcher1->getAdapter();
+    	 $where1 = $db1->quoteInto("Mission_ID = ?",$missionid);       //根据mission_about来查询
+    	 $result1 = $searcher1->fetchRow($where1)->toArray();
+    	 $this->view->missionuser= $result1;
+    	 
+    	 
+    	 $searcher2 = new Application_Model_DbTable_Account();
+    	 $db2 = $searcher2->getAdapter();
+    	 $where2 = $db2->quoteInto("Account_ID = ?",$result1['User_ID']);
+    	 $result2 = $searcher2->fetchRow($where2)->toArray();
+    	 $this->view->missionuser_account = $result2;
+    	 
+    }
 }
 

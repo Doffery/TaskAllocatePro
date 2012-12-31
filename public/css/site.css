@@ -1,35 +1,229 @@
-body,html {
-    margin: 0 5px;
-    font-family: Verdana,sans-serif;
+body {
+	font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
+	background: #eee url(../image/bg.png) repeat;
+	padding: 0;
+	color: #000;
 }
+
+#container {
+	width: 960px;
+	background: #FFF;
+	margin: 0 auto;
+}
+
+#header {
+	width: 960px;
+	height: 46px;
+	z-index: 10;
+	background: -webkit-linear-gradient(#EAEAEA, #DADADA);
+	border-bottom: 1px solid #CACACA;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 10px
+		rgba(0, 0, 0, 0.1);
+}
+
+#top {
+	height: 55px;
+	line-height: 55px;
+	width: 100%;
+	z-index: 120;/* 
+	background: url(images/pic.png) repeat-x; */
+	clear: both;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+#logo {
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+	font-size: 35px;
+}
+
+#menu {
+	float: left;
+	font-size: 20px;
+	height: 46px;
+	box-shadow: -1px 0 0 #e0e0e0;
+}
+
+#menu ul {
+	margin-top: 0px;
+	margin-left: -30px;
+}
+
+#menu li {
+	float: left;
+	display: list-item;
+	margin-left: 8px;
+	margin-right: 2px;
+}
+
+#menu a {
+	color: black;
+}
+
+#searchbar {
+	height: 30px;    /*46*/
+	float: left;
+	clear: none;
+	width: 250px;         /*width:auto*/
+	padding: 0px 0px 0px 10px;
+	position: relative;          
+    z-index: 1;           /**/
+    background: white;    /**/
+    border-radius:20px;  /**/
+    margin-top: 10px;     /**/
+    box-shadow: 0 0 10px #9999FF;
+    
+}
+
+
+#searchbar.Focus {
+	
+	border-color : #F60;
+    box-shadow: 0 0 15px #F90;
+}
+
+#searchbar select{            /**/   
+	
+	margin-right:0;
+    border: none;
+    position: absolute;
+    left: 5px;
+    top : 6px;
+}
+
+#searchbar input[type='text']{      /**/
+	margin-left: 0;
+	border: none;
+    position: relative;
+    top: -13px;
+    left: 29px;
+    height: 20px;
+}
+
+#searchbar input[type='image']{       /**/
+	
+    border: 0;
+    position: relative;
+    top: -5px;
+    left: 35px;
+    z-index: 2;
+}
+
+#userstate {
+	margin-top: 0px;
+	margin-right: 5px;
+}
+
+#content {
+	padding: 50px 0;
+	width: 720px;
+	float: left;
+	margin-bottom: 20px;
+}
+
+#sidebar {
+	margin-top: 50px;
+	padding: 50px 0;
+	float: right;
+	width: 240px;
+	padding-bottom: 10px;
+	margin-bottom: 80px;
+}
+
+#footer {
+	margin-top: 480px;
+	padding: 10px 0;
+	background: #C4C4C4;
+	position: relative;
+	clear: both;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 1), 0 0 10px rgba(0, 0, 0, 1);
+}
+
+#logon {
+	margin-left: 350px;
+	margin-bottom: 100px;
+	padding-top:10px;
+	padding-bottom:80px;
+    -webkit-box-shadow: 0px 3px 30px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow: 0px 3px 30px rgba(0, 0, 0, 0.1) inset;
+    box-shadow: 0px 3px 30px rgba(0, 0, 0, 0.1) inset;	
+}
+
+#logonbody {
+	margin-top: 30px;	
+	
+}
+
+#logonselected {
+	background-color: #6A3;
+	color: white;
+	font: 16px/45px 'Microsoft Yahei';
+	padding: 10px 30px;
+}
+
+#logonunselected {
+	font: 16px/45px 'Microsoft Yahei';
+	padding: 0 30px;
+}
+
+#publish {
+	background-color: yellow;
+	color: green;
+	font: 16px/45px 'Microsoft Yahei';
+	padding: 10px 30px;	
+}
+
+#publish:hover {
+	opacity: 0.6;
+}
+
+ul {
+	list-style: none;
+}
+
 h1 {
-    font-size: 1.4em;
-    color: #008000;
+	font-size: 1.4em;
+	color: #008000;
 }
+
 a {
-    color: #008000;
+	color: #008000;
+	text-decoration: none;
+}
+
+a:HOVER {
+	color: #008B8B;
+}
+
+a.content:visited {
+	color: #0000ff;
 }
 
 /* Table */
 th {
-    text-align: left;
+	text-align: left;
 }
-td, th {
-    padding-right: 5px;
+
+td,th {
+	padding-right: 5px;
 }
 
 /* style form */
 form dt {
-    width: 100px;
-    display: block;
-    float: left;
-    clear: left;
+	width: 100px;
+	display: block;
+	float: left;
+	clear: left;
 }
+
 form dd {
-    margin-left: 0;
-    float: left;
-    
+	margin-left: 0;
+	float: left;
 }
+
 form #submitbutton {
-    margin-left: 100px;
+	margin-left: 100px;
 }

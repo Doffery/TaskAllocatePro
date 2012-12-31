@@ -1,0 +1,37 @@
+
+<p title="<?php echo $this->applytime;?>">申请时间：<?php echo substr($this->applytime, 0, 10);?></p>
+<p title="<?php echo $this->gettime;?>">接受时间：<?php echo substr($this->gettime, 0, 10);?></p>
+
+<?php if(!$this->begintime) {?>
+<h2>您还没有开始本测试任务：</h2>
+<p>点击开始</p>
+<form action="<?php echo $this->url(array('controller' => 'tester', 'action' => 'missionfulfil'));?>" method="post">
+
+<input type="hidden" name="missionid" value="<?php echo $this->missionid?>"/>
+<input type="hidden" name="commandtype" value="start"/>
+
+<input type="submit" name="submit" value="开始"/>
+</form>
+<?php } else {?>
+交付时间：<?php echo $this->deadline;?>
+任务简介：<?php echo $this->missionabout;?>
+<?php if(isset($this->submission)) {?>
+<h2>子任务</h2>
+<?php foreach ($this->submission as $sm) :?>
+	<p style="font-size: 14px;"><a href="<?php echo $this->url(array('controller'=>'tester', 'action'=>'missionfulfil',
+			 'missionid' => $sm['Mission_ID']));?>"><?php echo $this->escape($sm['Mission_Name']);?></a><span style="font-size: 10px;">[<?php echo $this->escape($sm['Mission_ID']);?>]</span></p>
+
+	<p style="font-size: 15px; width: 200px;"><?php echo $this->escape($_SESSION['test_num_str'][$sm['Mission_State']]);?>
+	<span style="font-size: 10px;"><?php echo $this->escape($sm['Tec_Field']);?></span></p>
+
+	<p style="font-size: 10px;">￥<?php echo $this->escape($sm['Lowest_Price']);?>-￥<?php echo $this->escape($sm['Highest_Price']);?>
+	<?php echo substr($this->escape($sm['Release_Time']), 0, 10);?></p>
+	<?php $this->escape($sm['Father_Mission'])?$this->escape($sm['Father_Mission']):'X';?>
+
+		<?php endforeach; }?>
+		
+		<a href="<?php echo $this->url(array('controller'=>'tester', 'action'=>'missiondialy',
+			 'missionid' => $this->missionid));?>">日志</a>
+		<a href="<?php echo $this->url(array('controller'=>'tester', 'action'=>'missionsubmit',
+			 'missionid' => $this->missionid));?>">完成任务</a>
+<?php }?>

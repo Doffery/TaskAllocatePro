@@ -1,0 +1,18 @@
+
+<form action="<?php echo $this->url(array('controller' => 'handlemission', 'action'=>'applymission')); ?>"
+	name="form" method="post" onsubmit="return _validate();">
+	
+	<input type="hidden" name="missionid" value="<?php echo $this->missionid;?>"/>
+	<p>测试方案</p>
+	
+	<textarea name="missioncontent" id="missioncontent" cols="50" rows="5"
+		onfocus="if (this.value=='不少于5个字') this.value='';">不少于5个字</textarea>
+		<input type="submit" name="submit" id="submit" value="提交">
+</form>
+
+
+<script>
+function _validate() {
+	
+}
+</script>

@@ -1,0 +1,26 @@
+<p><?php echo $this->notice?></p>
+<h2>总结报告：</h2>
+<p>提交时间：<?php echo $this->submittime;?></p>
+<p><?php echo $this->reportcontent;?></p>
+
+<form action="<?php echo $this->url(array('controller' => 'user', 'action'=>'missionfinalreport')); ?>"
+			name="form" method="post">
+<input type="hidden" name="mission" value="<?php echo $this->missionid;?>"/>
+<input type="submit" name="submit" value="通过"/>
+<input type="button" name="submit" onclick="_fail()" value="不通过"/>
+<div  id="failreasondiv" style="display: none">
+
+	<textarea name="failreason" id="failreason" cols="" rows=""
+		onfocus="if (this.value=='不解释') this.value='';">不解释</textarea>
+<input type="submit" name="submit" value="确定"/>
+<input type="button" name="submit" onclick="_fail()" value="取消"/>
+</div>
+</form>
+
+<script>
+
+function _fail() {
+	var obj=document.getElementById('failreasondiv');
+	obj.style.display=(obj.style.display == 'none')?'block':'none';
+}
+</script>

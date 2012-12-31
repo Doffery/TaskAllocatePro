@@ -1,0 +1,56 @@
+
+<div>
+<?php require_once 'usermenu.phtml';?>
+</div>
+
+<div>
+	<h2>收到的消息(最近一个月)</h2>
+<?php foreach ($this->messageReceive as $mp) :?>
+<div>
+<hr />
+		<h3><?php echo $mp['Message_Title'];?></h3>
+		<?php if($mp['ReadOrnot']) {?>
+		<p>已读</p>
+		<?php } else {?>
+		<p>未读</p>
+		<?php }?>
+			消息来源：<a href="<?php echo $this->url(array('controller' => 'index',
+					 'action' => 'testerdetail',
+					 'fordetail_testerid' => $mp['Publisher_ID']));
+			?>"><?php echo $this->getAccountNameById($mp['Publisher_ID']);?></a>
+		消息发布时间：<?php echo $mp['Publish_Time'];?>
+			相关任务：<a href="<?php echo $this->url(array('controller' => 'index',
+					 'action' => 'mission',
+					 'missionid' => $mp['Related_Mission_ID']));
+			?>"><?php echo $this->getMissionNameById($mp['Related_Mission_ID']);?></a>
+		<p><a href="<?php echo $this->url(array('controller' => 'message',
+				 'action' => 'detail', 'messageid' => $mp['Message_ID']));
+		?>" target="_blank">阅读</a>
+		</p>
+</div>
+<?php endforeach;?>
+<a href="#">查看全部</a>
+</div>
+<div>
+	<h2>我发出的消息(最近一个月)</h2>
+<?php foreach ($this->messagePublish as $mr) :?>
+<div>
+		<h3><?php echo $mr['Message_Title'];?></h3>
+			消息发往：<a href="<?php echo $this->url(array('controller' => 'index',
+					 'action' => 'tester',
+					 'id' => $mr['Receiver_ID']));
+			?>"><?php echo $this->getAccountNameById($mr['Receiver_ID']);?></a>
+		          消息发布时间：<?php echo $mr['Publish_Time'];?>
+		
+			相关任务：<a href="<?php echo $this->url(array('controller' => 'index',
+					 'action' => 'mission',
+					 'missionid' => $mr['Related_Mission_ID']));
+			?>"><?php echo $this->getMissionNameById($mr['Related_Mission_ID']);?></a>
+		
+		<p><a href="<?php echo $this->url(array('controller' => 'message',
+				 'action' => 'detail', 'messageid' => $mr['Message_ID']));
+		?>" target="_blank">查看</a></p>
+</div>
+<?php endforeach;?>
+<a href="#">查看全部</a>
+</div>

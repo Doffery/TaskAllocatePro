@@ -12,5 +12,5 @@ class Application_Model_DbTable_TestMission extends Zend_Db_Table_Abstract {
 	/**
 	 * The default table name
 	 */
-	protected $_name = 'test';
+	protected $_name = 'testmission';
 }

@@ -1,7 +1,7 @@
 <?php 
 $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
 $this->headTitle()->setSeparator(' - ');
-$this->headTitle('Task Allocate Project');
+$this->headTitle($this->title);
 
 echo $this->doctype(); ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
@@ -11,10 +11,34 @@ echo $this->doctype(); ?>
     <?php echo $this->headLink()->prependStylesheet($this->baseUrl().'/css/site.css'); ?> 
 </head>
 <body>
+<div id="container">
+<div id="top" align="center">
+<div id="header" align="center">
+<div id="logo">
+<a href="<?php echo $this->url(array('controller'=>'index', 
+        'action'=>'index'));?>" style="font-size:35px;">TAP</a></div>
+	<div id="menu" style="float: left">
+	   <?php echo $this->layout()->menu; ?>
+	</div>
+	<div id="searchbar" style="float: left">
+	   <?php echo $this->layout()->searchbar; ?>
+	</div>
+	<div id="userstate" style="float: right">
+	   <?php echo $this->layout()->userstate; ?>
+	</div>
+</div></div>
 <div id="content">
-
     <h1><?php echo $this->escape($this->title); ?></h1>
     <?php echo $this->layout()->content; ?>
 </div>
+<div id="sidebar"> 
+    <?php echo $this->layout()->sidebar; ?>
+</div>
+</div>
+<script src="<?php echo $this->baseUrl();?>./js/Calendar.js" > </script>
+<div id="footer" align="center">
+   <?php echo $this->layout()->footer; ?>
+</div>
 </body>
+
 </html>

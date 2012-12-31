@@ -1,0 +1,123 @@
+<style>
+#content {
+	width: 960px;
+}
+
+.missiontype {
+	background-color: #6A3;
+	color: white;
+	font: 16px/45px 'Microsoft Yahei';
+	padding: 5px 30px;
+	margin: 20px;
+}
+
+.missiontype:hover {
+	opacity: 0.6;
+}
+
+</style>
+
+
+<form
+	action="<?php echo $this->url(array('controller'=>'publishmission', 'action'=>'chooseredirector')); ?>"
+	method="post" onsubmit="return _validate();">
+	<div id="mission" align="center">
+		<input type="submit" name="test" value="单元测试" class="missiontype"/>
+		<input type="submit" name="test" value="集成测试" class="missiontype" />
+		<input type="button" name="test" value="系统测试" class="missiontype" onclick="_matchview()" />
+		<input type="submit" name="test" value="其他测试" class="missiontype" />
+	</div>
+	<div id="systemmission" style="display: none">
+		<table>
+			<tr>
+				<td><input type="checkbox" name="testtype1" id="testtype1" /></td>
+				<td>功能测试</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="testtype2" id="testtype2" /></td>
+				<td>安全性测试</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="testtype3" id="testtype3" /></td>
+				<td>容量测试</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="testtype4" id="testtype4" /></td>
+				<td>完整性测试</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="testtype5" id="testtype5" /></td>
+				<td>结构测试</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="testtype6" id="testtype6" /></td>
+				<td>用户界面测试</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="testtype7" id="testtype7" /></td>
+				<td>负载测试</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="testtype8" id="testtype8" /></td>
+				<td>压力测试</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="testtype9" id="testtype9" /></td>
+				<td>疲劳强度测试</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="testtype10" id="testtype10" /></td>
+				<td>恢复性测试</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="testtype11" id="testtype11" /></td>
+				<td>配置测试</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="testtype12" id="testtype12" /></td>
+				<td>兼容性测试</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="testtype13" id="testtype13" /></td>
+				<td>安装测试</td>
+			</tr>
+		</table>
+
+		<input type="submit" name="test" value="确定" />
+		<input type="button" name="cancel" value="取消" onclick="_matchview()" />
+	</div>
+</form>
+
+<script>
+
+function _matchview() {
+	var obj=document.getElementById('systemmission');
+	obj.style.display=(obj.style.display == 'none')?'block':'none';
+
+	var obj=document.getElementById('mission');
+	//obj.style.background=(obj.style.backgroundcolor == 'gray')?'white':'gray';
+}
+
+function _validate() {
+	var obj=document.getElementById('systemmission');
+	if(obj.style.display == 'none')
+		return true;
+	else {
+		if(document.getElementById("testtype1").checked || document.getElementById("testtype2").checked
+			 || document.getElementById("testtype3").checked || document.getElementById("testtype4").checked
+				  || document.getElementById("testtype5").checked || document.getElementById("testtype6").checked 
+					  || document.getElementById("testtype7").checked || document.getElementById("testtype8").checked
+						   || document.getElementById("testtype9").checked || document.getElementById("testtype10").checked
+							    || document.getElementById("testtype11").checked || document.getElementById("testtype12").checked
+								     || document.getElementById("testtype13").checked) {
+			return true;
+		}
+	}
+    alert("请至少选择一种任务类型！");
+	return false;
+}
+
+</script>
+
+
+

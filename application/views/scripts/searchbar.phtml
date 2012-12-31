@@ -1,0 +1,10 @@
+<form  id="search" action="<?php echo $this->url(array('controller' => 'index', 'action'=>'search')); ?>" method="post">
+   <select name="selected">
+        <option value ="ForUser">找商家</option>
+        <option value ="ForTester">找测试人</option>
+        <option value="ForMission">找任务</option>
+        <option value="ForRecord">找案例</option>
+   </select>
+   <input type="text" value="关键字" onfocus="if(value =='关键字'){value='';}" onblur="if (value == ''){value='关键字';}"  name="key" style="width: 100px;" /> 
+   <input type="image" src="<?php echo $this->baseUrl();?>/image/searchbox.gif" alt='Submit'  value='search'/>
+</form>

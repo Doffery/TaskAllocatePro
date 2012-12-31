@@ -1,0 +1,25 @@
+
+<?php if($this->bidding == 1) {?>
+<p>竞标中!<a href="<?php echo $this->url(array('controller' => 'handlemission',
+		 'action' => 'applymission', 'missionid' => $this->missionid))?>">竞标</a></p>
+<?php } else {?>
+<p>竞标结束</p>
+<?php }?>
+
+
+<p>发布时间：<?php echo $this->escape($this->releasetime);?></p>
+<p>项目预算：<?php echo $this->escape($this->lowprice);?>~<?php echo $this->escape($this->highprice);?></p>
+<p>项目分类：<?php echo $this->escape($this->missiontype);?></p>
+<p>技术领域：<?php echo $this->escape($this->tecfield);?></p>
+<p>竞标截止时间：<?php echo $this->escape($this->applydeadline);?></p>
+<p>期望完成时间：<?php echo $this->escape($this->finishdeadline);?></p>
+<p>项目描述：<?php echo $this->escape($this->missionabout);?></p>
+
+
+<h2>提供解决方案的人</h2>
+<?php foreach ($this->applytester as $at) :?>
+<a href="<?php echo $this->url(array('controller' => 'index',
+					 'action' => 'tester',
+					 'fordetail_testerid' => $at['Account_ID']));
+			?>"><?php echo $at['Account_Name'];?></a>
+<?php endforeach;?>

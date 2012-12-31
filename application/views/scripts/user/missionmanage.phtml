@@ -1,0 +1,28 @@
+<?php if($this->bidding == 1) {?>
+<p>竞标中!<a href="<?php echo $this->url(array('controller' => 'handlemission',
+		 'action' => 'applymission', 'missionid' => $this->missionid))?>">竞标</a></p>
+<h2>提供解决方案的人</h2>
+<?php foreach ($this->applymission as $at) :?>
+<a href="<?php echo $this->url(array('controller'=>'index', 
+        'action'=>'testerdetail', 'fordetail_testerid' => $at['Tester_ID'] ));?>"><?php echo $this->getAccountNameById($at['Tester_ID']);?></a>
+<?php endforeach;?>
+<?php } else {?>
+<p>测试中！</p>
+<p>测试人员：<a href="<?php echo $this->url(array('controller' => 'index',
+					 'action' => 'testerdetail',
+					 'fordetail_testerid' => $this->testmission['Tester_ID']));
+			?>"><?php echo $this->getAccountNameById($this->testmission['Tester_ID']);?></a></p>
+			<a href="<?php echo $this->url(array('controller' => 'user', 'action'=>'missiondialy')); ?>">测试日志</a>
+			<a href="<?php echo $this->url(array('controller' => 'user', 'action'=>'missionfinalreport')); ?>">总结报告</a>
+<?php }?>
+
+
+
+
+<p>发布时间：<?php echo $this->escape($this->releasetime);?></p>
+<p>项目预算：<?php echo $this->escape($this->lowprice);?>~<?php echo $this->escape($this->highprice);?></p>
+<p>项目分类：<?php echo $this->escape($this->missiontype);?></p>
+<p>技术领域：<?php echo $this->escape($this->tecfield);?></p>
+<p>竞标截止时间：<?php echo $this->escape($this->applydeadline);?></p>
+<p>期望完成时间：<?php echo $this->escape($this->finishdeadline);?></p>
+<p>项目描述：<?php echo $this->escape($this->missionabout);?></p>

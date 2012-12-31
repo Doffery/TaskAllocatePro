@@ -1,0 +1,46 @@
+
+<div>
+<?php require_once 'usermenu.phtml';?>
+</div>
+<form action="<?php echo $this->url(array('controller' => 'user', 'action'=>'userdata')); ?>" method="post" id="formuser" name="formuser">
+<img src="<?php echo $this->baseUrl();?>/image/head.jpg" title="暂无头像功能" style="float: left; margin: 0px 20px 20px 20px;"/>
+<h2><?php echo $this->escape($this->name);?></h2>
+<div style="margin-left: 10px; margin-top: 100px;">
+<p>性别：<select name="sex" >
+<?php if ($this->sex == 1) {?>
+        <option value ="1">男</option>
+        <option value ="0">女</option>
+<?php } else {?>
+        <option value ="0">女</option>
+        <option value ="1">男</option>
+<?php }?>
+   </select></p>
+<p>邮箱：<input type="email" name="email" value="<?php echo $this->escape($this->email);?>" disabled="disabled"/></p>
+<p>电话：<input type="tel" name="mobile" id="mobile" value="<?php echo $this->escape($this->mobile);?>" /></p>
+</div>
+<div style="margin-left: 10px; margin-top: 40px;">
+<p>自我描述：</p>
+	<textarea name="selfdiscription" id="selfdiscription" cols="40" rows="2" style="margin-left: 10px"><?php echo $this->escape($this->selfdiscription);?></textarea>
+</div>
+<div>
+<input type="button" name="change" onclick="_check()" value="更改" />
+<input type="submit" name="change" value="取消" />
+</div>
+</form>
+<a href="#">申请成为测试人员</a>
+
+<script>
+function _check() {
+	if(document.getElementById("mobile").value != "" && !isTel(document.getElementById("mobile").value)) {
+		alert("请输入正确的电话！");
+		return;
+		}
+	else this.formuser.submit();
+}
+
+
+function isTel(str){
+    var reg = /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/;
+    return reg.test(str);
+}
+</script>

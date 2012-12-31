@@ -1,0 +1,43 @@
+<?php
+  echo '人才中心';
+?>
+
+<table>
+
+<?php if($_SESSION['have_result'] == 'yes') {?>
+<tr>
+    <th>账户编号</th>
+    <th>姓名</th>
+    <th>邮箱</th>
+    <th>图片</th>
+    <th>性别</th>
+    <th>手机号</th>
+    <th>自我评价</th>
+    <th>是否有活</th>
+    <th>擅长领域1</th>
+    <th>擅长领域2</th>
+    <th>擅长领域3</th>
+</tr>
+<?php } else{}?>
+
+<?php  foreach($this->result as $value) :  ?>
+<tr>
+    <td><?php echo $this->escape($value['Account_ID']);?></td>
+    <td><a href="<?php echo $this->url(array('controller'=>'index', 
+        'action'=>'testerdetail', 'fordetail_testerid' => $value['Account_ID'] ));?>"><?php echo $this->escape($value['Account_Name']);?></a></td>
+    <td><?php echo $this->escape($value['Account_Email']);?></td>
+    <td><?php echo $this->escape($value['Account_Icon']);?></td>
+    <td><?php echo $this->escape($value['Account_Sex']);?></td>
+    <td><?php echo $this->escape($value['Account_mobile']);?></td>
+    <td><?php echo $this->escape($value['Self_Discription']);?></td>
+    <td><?php echo $this->getTesterIsWorkingById($value['Account_ID']);?></td>
+    <td><?php echo   $_SESSION['test_num_str'][$this->getTesterField1ById($value['Account_ID'])];?></td>
+    <td><?php echo   $_SESSION['test_num_str'][$this->getTesterField2ById($value['Account_ID'])];?></td>
+    <td><?php echo   $_SESSION['test_num_str'][$this->getTesterField3ById($value['Account_ID'])];?></td>
+</tr>
+<?php endforeach; ?>
+
+</table>
+
+
+

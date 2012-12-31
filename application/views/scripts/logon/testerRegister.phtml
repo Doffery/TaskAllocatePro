@@ -1,0 +1,67 @@
+<h1 align="center">测试人员注册</h1>
+<div id="bodyDivr" align="center">
+<div id="registerTable">
+<form action="<?php echo $this->url(array('action'=>'testerregister')); ?>" name="form" method="post">
+<table>
+<tr><td></td><td><?php echo $this->escape($this->ttt);?></td></tr>
+   <tr><td>用户名：</td><td><input type="text" name="testername" id="testername"></td></tr> 
+   <tr><td>密码：</td><td><input type="password" name="password" id="password"></td></tr> 
+   <tr><td>Email：</td><td><input type="text" name="email" id="email"></td></tr> 
+  <?php for ($i=0;$i<3;$i++){?> 
+  	<tr><td>擅长领域<?php echo $i+1;?>  ：</td>
+	<td><select name="area<?php echo $i+1;?>" id="area<?php echo $i+1;?>">
+	<option value="0">...</option>
+	<option value="1">单元测试</option>
+	<option value="2">集成测试</option>
+	<option value="3">系统测试</option>
+	<option value="4">功能测试</option>
+	<option value="5">安全性测试</option>
+	<option value="6">容量测试</option>
+	<option value="7">完整性测试</option>
+	<option value="8">结构测试</option>
+	<option value="9">用户界面测试</option>
+	<option value="10">负载测试</option>
+	<option value="11">压力测试</option>
+	<option value="12">疲劳强度测试</option>
+	<option value="13">恢复性测试</option>
+	<option value="14">配置测试</option>
+	<option value="15">兼容性测试</option>
+	<option value="16">安装测试</option>
+	<option value="17">其他测试</option>
+	</select></td>
+   </tr>  <?php }?>
+   <tr><td></td><td><input type="submit" name="submit" id="submit"  onclick="_validate();" value="注册"></td></tr>
+   </table>
+  </form>
+ </div>
+</div>
+<script>
+//验证表单是否为空
+function _validate(){
+ if(document.getElementById('testername').value==""){
+  alert("请输入账户名");
+  document.getElementById('testername').focus();
+  return false;
+ }else if(document.getElementById('password').value==""){
+   alert("请输入密码");
+   document.getElementById('password').focus();
+   return false;
+ }else if(document.getElementById('email').value==""){
+	alert("请输入Email");
+	document.getElementById('email').focus();
+	return false;
+ }else if(document.getElementById('area1').value==0){
+	alert("请完成您的擅长领域选项");
+	document.getElementById('area1').focus();
+	return false;
+ }else if(document.getElementById('area2').value==0){
+	alert("请完成您的擅长领域选项");
+	document.getElementById('area2').focus();
+	return false;
+ }else if(document.getElementById('area3').value==0){
+	alert("请完成您的擅长领域选项");
+	document.getElementById('area3').focus();
+	return false;
+ }	
+}
+</script>

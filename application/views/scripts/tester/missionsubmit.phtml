@@ -1,0 +1,12 @@
+<h2>您的测试总结报告</h2>
+
+<form
+	action="<?php echo $this->url(array('controller'=>'tester', 'action'=>'missionsubmit')); ?>"
+	method="post">
+	<input type="hidden" name="missionid" value="<?php echo $this->missionid;?>" />
+<textarea name="report" id="report" cols="100" rows="40"
+	onfocus="if (this.value=='不少于5个字') this.value='';">不少于5个字</textarea>
+	
+	<input type="submit" name="submit" id="submit" value="确定" />
+	<input type="button" name="submit" value="取消" onclick="javascript:history.go(-1);"/>
+</form>

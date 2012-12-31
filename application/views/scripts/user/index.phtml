@@ -1,0 +1,41 @@
+<style>
+#content {
+	width: 960px;
+}
+</style>
+<div>
+<?php require_once 'usermenu.phtml';?>
+</div>
+<div style="margin-bottom: 40px;">
+<a href="<?php echo $this->url(array(
+								'controller'=>'publishmission',
+        						'action'=>'chooseredirector'));?>" id="publish" style="margin-left: 500px;">发布任务</a>
+<img src="<?php echo $this->baseUrl();?>/image/head.jpg" title="暂无头像功能" style="float: left; margin: 20px;"/>
+<div style="float: left; margin: 0px;">
+<h2><?php echo $this->escape($this->user);?></h2>
+<p>测试人员评价：<?php echo $this->escape($this->score);?></p>
+<p>发布的任务数：<?php echo $this->escape($this->missioncount);?></p>
+</div>
+</div>
+<div style="margin-left: 0px; margin-top: 110px;">
+<h3>最近发布的任务</h3>
+	<table>
+		<tr>
+			<th>任务编号</th>
+			<th>任务名称</th>
+			<th>任务类型</th>
+			<th>任务发布时间</th>
+			<th>父任务</th>
+		</tr>
+<?php foreach ($this->usermissions as $um) :?>
+		<tr>
+			<td><?php echo $this->escape($um['Mission_ID']);?></td>
+			<td><a href="<?php echo $this->url(array('controller'=>'index', 
+        'action'=>'mission', 'missionid' => $um['Mission_ID']));?>"><?php echo $this->escape($um['Mission_Name']);?></a></td>
+			<td><?php echo $this->escape($_SESSION['test_num_str'][$um['Mission_State']]);?></td>
+			<td><?php echo $this->escape($um['Release_Time']);?></td>
+			<td><?php echo $this->escape($um['Father_Mission'])?$this->escape($um['Father_Mission']):'X';?></td>
+		</tr>
+<?php endforeach;?>
+	</table>
+</div>

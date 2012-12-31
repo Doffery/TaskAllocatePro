@@ -1,0 +1,58 @@
+<h1 align="center">商家注册</h1>
+<div id="bodyDivr" align="center">
+	<div id="registerTable">
+		<form action="<?php echo $this->url(array('action'=>'register')); ?>"
+			name="form" method="post" onsubmit="return _validate();">
+			<table>
+				<tr>
+					<td></td>
+					<td><?php echo $this->escape($this->ttt);?></td>
+				</tr>
+				<tr>
+					<td>用户名：</td>
+					<td><input type="text" name="username" id="username"></td>
+				</tr>
+				<tr>
+					<td>密码：</td>
+					<td><input type="password" name="password" id="password"></td>
+				</tr>
+				<tr>
+					<td>Email：</td>
+					<td><input type="email" name="email" id="email"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" name="submit" id="submit" value="注册"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script>
+//验证表单是否为空
+function _validate(){
+	if(document.getElementById('username').value==""){
+		alert("请输入账户名！");
+		document.getElementById('username').focus();
+		return false;
+	}else if(document.getElementById('password').value==""){
+		alert("请输入密码！");
+		document.getElementById('password').focus();
+		return false;
+	}else if(document.getElementById('email').value==""){
+		alert("请输入Email！");
+		document.getElementById('email').focus();
+		return false;
+	}else if(!isEmail(document.getElementById('email').value)) {
+		alert("请输入正确的Email地址！");
+		document.getElementById('email').focus();
+		return false;
+	}
+	return true;
+}
+
+function isEmail(str){
+    var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+    return reg.test(str);
+}
+</script>
