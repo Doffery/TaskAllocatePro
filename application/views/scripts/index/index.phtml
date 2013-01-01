@@ -1,3 +1,14 @@
+<style>
+.littletext {
+	font-size: 10px;
+	color: gray;
+}
+.littlecontent {
+	width: 150px;
+	display:inline-block;
+}
+</style>
+
 
 <div id="welcome">
 <!-- 
@@ -11,49 +22,74 @@
         'action'=>'testerlogon'));?>" >测试人员登录</a>
         <a href="<?php echo $this->url(array('controller'=>'logon', 
         'action'=>'testerregister'));?>">注册</a></p> -->
-<div>
+<div style="margin-top: 75px;">
         <h2 style="font-size: 10px;">已完成的任务</h2>
-	<table>
-		<tr>
-			<th>任务编号</th>
-			<th>任务名称</th>
-			<th>任务类型</th>
-			<th>任务发布时间</th>
-			<th>父任务</th>
-		</tr>
-<?php foreach ($this->missionscompleted as $um) :?>
-		<tr>
-			<td><?php echo $this->escape($um['Mission_ID']);?></td>
-			<td><a href="<?php echo $this->url(array('controller'=>'index', 
-        'action'=>'mission', 'missionid' => $um['Mission_ID']));?>"><?php echo $this->escape($um['Mission_Name']);?></a></td>
-			<td><?php echo $this->escape($_SESSION['test_num_str'][$um['Mission_State']]);?></td>
-			<td><?php echo $this->escape($um['Release_Time']);?></td>
-			<td><?php echo $this->escape($um['Father_Mission'])?$this->escape($um['Father_Mission']):'X';?></td>
-		</tr>
+
+<?php foreach ($this->missionscompleted as $value) :?>
+
+<hr />
+<ul style="padding-left: 0px;">
+ 
+ <li>
+    <span class='recordid'>[<?php echo $this->escape($value['Mission_ID']);?>]  </span>
+    <span>  <a href="<?php echo $this->url(array('controller'=>'index', 
+          'action'=>'recorddetail', 'fordetail_recordid' => $value['Mission_ID'] ));?>"><?php echo $this->escape($value['Mission_Name']);?></a></span>
+    <span style="float: right; width: 100px;"> ￥<?php if($value['Price'])
+    													echo $this->escape($value['Price']);
+    													else echo '结账中'			?></span>
+ </li>
+ <li>
+   
+    <span class="littlecontent">  商家      <a href="<?php echo $this->url(array('controller' => 'index',
+    		'action' => 'userdetail', 'fordetail_userid' => $value['Release_User']));?>"><?php echo $this->escape($this->getAccountNameById($value['Release_User']));?></a></span>
+    <span class="littlecontent"> 测试人员  <a href="<?php echo $this->url(array('controller' => 'index',
+    		'action' => 'testerdetail', 'fordetail_testerid' => $value['Release_User']));?>"><?php echo $this->escape($this->getAccountNameById($value['Tester']));?></a></span>
+   <span class="littlecontent">  <span class="littletext">任务类型：</span>  <?php echo $this->escape($_SESSION['test_num_str'][$value['Mission_State']]);?></span>
+ </li>
+ <li>
+    <span class="littlecontent"><span class="littletext">发布：</span>  <?php echo substr($this->escape($value['Release_Time']),0,10);?></span>
+    
+    
+    <span> <span class="littletext">完成交易：</span> <?php echo substr($this->escape($value['Finished_Time']),0,10);?></span>
+    
+ </li>
+ <li>
+     <span> 简介  <?php echo $this->escape($value['Mission_About']);?> </span>
+ </li>
+</ul>
 <?php endforeach;?>
-	</table>
 </div>
 <div>
         <h2 style="font-size: 10px;">测试中的任务</h2>
-	<table>
-		<tr>
-			<th>任务编号</th>
-			<th>任务名称</th>
-			<th>任务类型</th>
-			<th>任务发布时间</th>
-			<th>父任务</th>
-		</tr>
-<?php foreach ($this->missionstesting as $um) :?>
-		<tr>
-			<td><?php echo $this->escape($um['Mission_ID']);?></td>
-			<td><a href="<?php echo $this->url(array('controller'=>'index', 
-        'action'=>'mission', 'missionid' => $um['Mission_ID']));?>"><?php echo $this->escape($um['Mission_Name']);?></a></td>
-			<td><?php echo $this->escape($_SESSION['test_num_str'][$um['Mission_State']]);?></td>
-			<td><?php echo $this->escape($um['Release_Time']);?></td>
-			<td><?php echo $this->escape($um['Father_Mission'])?$this->escape($um['Father_Mission']):'X';?></td>
-		</tr>
+<?php foreach ($this->missionstesting as $value) :?>
+<hr />
+<ul style="padding-left: 0px;">
+ <li>
+   <span class='missionid'>[<?php echo $this->escape($value['Mission_ID']);?>]</span>
+   <span>  <a href="<?php echo $this->url(array('controller'=>'index', 
+          'action'=>'missiondetail', 'fordetail_missionid' => $value['Mission_ID'] ));?>"><?php echo $this->escape($value['Mission_Name']);?></a> </span>
+   <span style='float:right'>￥ <?php echo $this->escape($value['Lowest_Price']);?>~￥  <?php echo $this->escape($value['Highest_Price']);?></span>
+ </li>
+ 
+ <li>
+   
+   
+   <span style='float:left' class="littlecontent">  <span class="littletext">发布</span>  <?php echo substr($this->escape($value['Release_Time']),0,10);?></span>
+
+   <span style='float: right;' class="littlecontent"> <span class="littletext">截止</span>  <?php echo substr($this->escape($value['Finish_Deadline']),0,10);?></span>
+ </li>
+ 
+ <li><span class="littlecontent">  <span class="littletext">任务类型：</span>  <?php echo $this->escape($_SESSION['test_num_str'][$value['Mission_State']]);?></span>
+   
+   
+   <span><span class="littletext">技术领域：</span><?php echo $this->escape($value['Tec_Field']);?></span>
+   
+ </li>
+ <li>
+   <span>简介   <?php echo $this->escape($value['Mission_About']);?></span>
+ </li>
+</ul>
 <?php endforeach;?>
-	</table>
 </div>
 <!-- 
 <div  align="center">

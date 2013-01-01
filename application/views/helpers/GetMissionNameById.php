@@ -25,7 +25,13 @@ class Zend_View_Helper_GetMissionNameById {
 	public function getMissionNameById($id) {
 		$missiondb = new Application_Model_DbTable_Mission();
 		$result = $missiondb->fetchRow('Mission_ID = '.$id);
-		return $result['Mission_Name'];
+		if($result)
+			return $result['Mission_Name'];
+		else {
+			$recorddb = new Application_Model_DbTable_Record();
+			$result = $recorddb->fetchRow('Mission_ID = '.$id);
+			return $result['Mission_Name'];
+		}
 	}
 	
 	/**

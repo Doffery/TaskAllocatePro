@@ -14,78 +14,69 @@
 .missiontype:hover {
 	opacity: 0.6;
 }
+#systemmission { 
+	height:300px;
+}
+#li_space{ 
+	height:300px;
+	width:400px;
+	float:left
+}
+#li_command{ 
+	width:300px;
+	float:left
+}
+#li_choose{ 
+	width:300px;
+	float:left;
+	border: 1px solid #C9C9C9;
+	border-radius: 3px;
+	background-color: gray;
+}
 
+#li_choose  div {
+	float:left;
+	height:30px;
+	width:150px;
+}
+#li_choose a { font-size: 14px; color: white;}
 </style>
 
 
 <form
 	action="<?php echo $this->url(array('controller'=>'publishmission', 'action'=>'chooseredirector')); ?>"
 	method="post" onsubmit="return _validate();">
-	<div id="mission" align="center">
-		<input type="submit" name="test" value="单元测试" class="missiontype"/>
-		<input type="submit" name="test" value="集成测试" class="missiontype" />
-		<input type="button" name="test" value="系统测试" class="missiontype" onclick="_matchview()" />
-		<input type="submit" name="test" value="其他测试" class="missiontype" />
-	</div>
-	<div id="systemmission" style="display: none">
-		<table>
-			<tr>
-				<td><input type="checkbox" name="testtype1" id="testtype1" /></td>
-				<td>功能测试</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="testtype2" id="testtype2" /></td>
-				<td>安全性测试</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="testtype3" id="testtype3" /></td>
-				<td>容量测试</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="testtype4" id="testtype4" /></td>
-				<td>完整性测试</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="testtype5" id="testtype5" /></td>
-				<td>结构测试</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="testtype6" id="testtype6" /></td>
-				<td>用户界面测试</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="testtype7" id="testtype7" /></td>
-				<td>负载测试</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="testtype8" id="testtype8" /></td>
-				<td>压力测试</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="testtype9" id="testtype9" /></td>
-				<td>疲劳强度测试</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="testtype10" id="testtype10" /></td>
-				<td>恢复性测试</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="testtype11" id="testtype11" /></td>
-				<td>配置测试</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="testtype12" id="testtype12" /></td>
-				<td>兼容性测试</td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" name="testtype13" id="testtype13" /></td>
-				<td>安装测试</td>
-			</tr>
-		</table>
-
-		<input type="submit" name="test" value="确定" />
-		<input type="button" name="cancel" value="取消" onclick="_matchview()" />
-	</div>
+		<div id="mission" align="center">
+			<input type="submit" name="test" value="单元测试" class="missiontype"/>
+			<input type="submit" name="test" value="集成测试" class="missiontype" />
+			<input type="button" name="test" value="系统测试" class="missiontype" onclick="_matchview()" />
+			<input type="submit" name="test" value="其他测试" class="missiontype" />
+		</div>
+	<ul id="systemmission" style="display: none;width:800px" >
+		<li id="li_space"></li>
+		<li id="li_choose">
+				<div><input type="checkbox" name="testtype1" id="testtype1" /><a> 功能测试</a></div>
+				<div><input type="checkbox" name="testtype2" id="testtype2" /><a> 安全性测试</a></div>
+				<div><input type="checkbox" name="testtype3" id="testtype3" /><a> 容量测试</a></div>
+				<div><input type="checkbox" name="testtype4" id="testtype4" /><a> 完整性测试</a></div>
+				<div><input type="checkbox" name="testtype5" id="testtype5" /><a> 结构测试</a></div>
+				<div><input type="checkbox" name="testtype6" id="testtype6" /><a> 用户界面测试</a></div>
+				<div><input type="checkbox" name="testtype7" id="testtype7" /><a> 负载测试</a></div>
+				<div><input type="checkbox" name="testtype8" id="testtype8" /><a> 压力测试</a></div>
+				<div><input type="checkbox" name="testtype9" id="testtype9" /><a> 疲劳强度测试</a></div>
+				<div><input type="checkbox" name="testtype10" id="testtype10" /><a> 恢复性测试</a></div>
+				<div><input type="checkbox" name="testtype11" id="testtype11" /><a> 配置测试</a></div>
+				<div><input type="checkbox" name="testtype12" id="testtype12" /><a> 兼容性测试</a></div>
+				<div><input type="checkbox" name="testtype13" id="testtype13" /><a> 安装测试</a></div>
+		</li>
+		<li id="li_command">
+			<div id="combutton" style="float:left">
+				<input type="submit" name="test" value="确定" />
+				<input type="button" name="cancel" value="取消" onclick="_matchview()" />
+			</div>
+		</li>
+		
+	</ul>
 </form>
 
 <script>
@@ -93,10 +84,10 @@
 function _matchview() {
 	var obj=document.getElementById('systemmission');
 	obj.style.display=(obj.style.display == 'none')?'block':'none';
-
 	var obj=document.getElementById('mission');
 	//obj.style.background=(obj.style.backgroundcolor == 'gray')?'white':'gray';
 }
+
 
 function _validate() {
 	var obj=document.getElementById('systemmission');

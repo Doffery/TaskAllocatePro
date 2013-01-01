@@ -1,4 +1,4 @@
-
+<h2><?php echo $this->missionname;?></h2>
 <p title="<?php echo $this->applytime;?>">申请时间：<?php echo substr($this->applytime, 0, 10);?></p>
 <p title="<?php echo $this->gettime;?>">接受时间：<?php echo substr($this->gettime, 0, 10);?></p>
 
@@ -15,6 +15,48 @@
 <?php } else {?>
 交付时间：<?php echo $this->deadline;?>
 任务简介：<?php echo $this->missionabout;?>
+<br />
+<h3>用户上传的文件：</h3>
+<?php
+$dir = "D:/www/TaskAllocatePro/files/".$this->missionid."/user/";
+// Open a known directory, and proceed to read its contents
+if (is_dir($dir)) {
+    if ($dh = opendir($dir)) {
+        while (($file = readdir($dh)) !== false) {
+        if($file != "." && $file !=".."  ){
+			echo  '文件名称：';
+			echo  '<a href="http://localhost/TaskAllocatePro/files/'.$this->missionid.'/user/'.$file.'">'.$file.'</a>';
+			echo  '<br />';
+		}
+	}
+        closedir($dh);
+    }
+}
+?>
+<h3>您上传的文件：</h3>
+<?php
+$dir = "D:/www/TaskAllocatePro/files/".$this->missionid."/tester/";
+// Open a known directory, and proceed to read its contents
+if (is_dir($dir)) {
+    if ($dh = opendir($dir)) {
+        while (($file = readdir($dh)) !== false) {
+        if($file != "." && $file !=".." ){
+			echo  '文件名称：';
+			echo  $file;
+			echo  '<br />';
+		}	
+	}
+        closedir($dh);
+    }
+}
+?>
+<form enctype="multipart/form-data" action="<?php echo $this->url(array('controller' => 'tester', 'action'=>'missionfulfil')); ?>" method="post">
+
+    <br>
+  <input name="uploadfile" type="file">
+    <br>
+    <input name= "upload" type="submit" value="上传文件">
+</form>
 <?php if(isset($this->submission)) {?>
 <h2>子任务</h2>
 <?php foreach ($this->submission as $sm) :?>

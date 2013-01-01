@@ -1,15 +1,57 @@
+<style>
+<!--
+#mission_detail div{
+	height:50px;
+}
+#mission_info{
+	height:100px;
+}
+#mission_info textarea{
+	height:80px;
+	width:200px;
+}
+#mission_info label{
+	float:left;
+	width:120px;
+	display: inline-block;
+	text-align:left
+}
+#mission_name{
+	margin-bottom: 15px;
+}
 
+#mission_detail div label,  #mission_name label, #total_mission label{
+	float:left;
+	width:120px;
+	display: inline-block;
+	text-align:left
+}
+#mission_detail div input, #mission_name  input,  #total_mission input{
+	display: inline-block;
+}
+#submit_button {
+	margin-top: 50px;
+	width:50px;
+	height:30px;
+	font-size:18px;
+}
+-->
+</style>
 <form
 	action="<?php echo $this->url(array('controller'=>'publishmission', 'action'=>'publishmissions')); ?>"
-	method="post" onsubmit="_validate()">
+	method="post">
 
 <!--	<input type="hidden" name="missionvisible" value="<?php echo $_SESSION['missionseperate'];?>" />
 	<input type="hidden" name="fathermission" value="<?php echo $this->escape($_SESSION['fathermission']);?>" />  -->
 
-	<p>系统测试名称<input type="text" name="missionname" id="missionname" maxLength=40 /></p>
+	<div id="total_mission">
+		<label>系统测试名称</label>
+		<input type="text" name="missionname" id="missionname" maxLength=40 />
+	</div>
 	
-	<p>任务分开发布<a href="<?php echo $this->url(array('controller'=>'publishmission',
-			 'action'=>'publishmissionsi')); ?>" title="切换后，您将分别需要发布您的小任务，这些任务一般会被不同的测试人员接受">切换</a></p>
+	<label>任务分开发布</label>
+	<a href="<?php echo $this->url(array('controller'=>'publishmission',
+			 'action'=>'publishmissionsi')); ?>" title="切换后，您将分别需要发布您的小任务，这些任务一般会被不同的测试人员接受">切换</a>
 	
 	
 	<?php 
@@ -18,37 +60,37 @@
 	<h2><?php echo $this->escape($_SESSION['test_num_str'][$m]);?></h2>
 <div id="mission<?php echo $m;?>">
 	<input type="hidden" name="missiontype<?php echo $m;?>" value="<?php echo $m;?>" />
-	<p>
-		任务名称
+	<div id="mission_name">
+		<label>任务名称</label>
 		<input type="text" name="missionname<?php echo $m;?>" id="<?php echo 'missionname'. $m;?>" maxLength=40 />
-	</p>
-<div>
-	<p>
-		价格区间<input type="number" name="lowprice<?php echo $m;?>" id="<?php echo 'lowprice'. $m;?>" />~
+	</div>
+<div id="mission_detail">
+	<div>
+		<label>价格区间</label>
+		<input type="number" name="lowprice<?php echo $m;?>" id="<?php echo 'lowprice'. $m;?>" />~
 		<input type="number" name="highprice<?php echo $m;?>" id="<?php echo 'highprice'. $m;?>" />元
-	</p>
-	<p>
-		申请截止日期<input type="date" name="applicationdate<?php echo $m;?>"
+	</div>
+	<div>
+		<label>申请截止日期</label>
+		<input type="date" name="applicationdate<?php echo $m;?>"
 			id="<?php echo 'applicationdate'. $m;?>"  onclick="new Calendar().show(this);" readonly="readonly" />
-	</p>
-	<p>
-		任务完成日期<input type="date" name="finishdate<?php echo $m;?>" id="<?php echo 'finishdate'. $m;?>"  onclick="new Calendar().show(this);" readonly="readonly" />
-	</p>
+	</div>
+	<div>
+		<label>任务完成日期</label>
+		<input type="date" name="finishdate<?php echo $m;?>" id="<?php echo 'finishdate'. $m;?>"  onclick="new Calendar().show(this);" readonly="readonly" />
+	</div>
 </div>
-<!--	<p>
-		任务技术领域<input type="text" name="tecfield<?php echo $m;?>" id="<?php echo 'tecfield'. $m;?>" />
-	</p> -->
-	<p>任务简介：</p>
+	<div id="mission_info">
+	<label>任务简介</label>
 	<textarea name="missioncontent<?php echo $m;?>" id="<?php echo 'missioncontent'. $m;?>" cols="" rows=""
 		onfocus="if (this.value=='不少于5个字') this.value='';">不少于5个字</textarea>
-
+	</div>
 </div>
 	<input type="button" onclick="_validate<?php echo $m;?>()" value="确定" />
 <hr />
 <script>
 //验证表单是否为空
 function _validate<?php echo $m;?>(){
-	
 	if(document.getElementById('missionname<?php echo $m;?>').value=="" || document.getElementById('lowprice<?php echo $m;?>').value=="" || document.getElementById('highprice<?php echo $m;?>').value=="" || 
 			 document.getElementById('applicationdate<?php echo $m;?>').value=="" || document.getElementById('finishdate<?php echo $m;?>').value=="" || 
 			 document.getElementById('missioncontent<?php echo $m;?>').value==""){
@@ -78,36 +120,6 @@ function _validate<?php echo $m;?>(){
 </script>
 <?php endforeach;?>
 
-	<input type="submit" name="submit" id="submit" value="发布">
+	<input id="submit_button" type="submit" name="submit" id="submit" value="发布">
         
 </form>
-
-<script>
-function _validate() {
-	<?php 
-			foreach ($_SESSION['missionUnsolved'] as $m):?>
-	if(document.getElementById('missionname<?php echo $m;?>').value=="" || document.getElementById('lowprice<?php echo $m;?>').value=="" || document.getElementById('highprice<?php echo $m;?>').value=="" || 
-			 document.getElementById('applicationdate<?php echo $m;?>').value=="" || document.getElementById('finishdate<?php echo $m;?>').value=="" || 
-			 document.getElementById('missioncontent<?php echo $m;?>').value==""){
-		alert("请输入完整信息");
-		return false;
-	}
-	//else if (document.getElementById('missionname<?php echo $m;?>').value.length )
-	else if(parseFloat(document.getElementById('lowprice<?php echo $m;?>').value) >= parseFloat(document.getElementById('highprice<?php echo $m;?>').value)) {
-		alert("请输入正确价格信息！");
-		return false;
-	}
-	else if(parseFloat(document.getElementById('lowprice<?php echo $m;?>').value) < 0 || parseFloat(document.getElementById('highprice<?php echo $m;?>').value >= 1000000)) {
-
-		alert("请输入合理的价格信息！");
-		return false;
-	}
-	//else if(){
-		//正则表达式判断价格，日期是否输入标准
-	//}
-
-	<?php endforeach;?>
-	return true;
-	
-}
-</script>

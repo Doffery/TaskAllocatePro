@@ -16,7 +16,7 @@
 	</div>
 	<div  style="float: left; margin-bottom: -20px;">
 	<p style="font-size: 15px; width: 200px;"><?php echo $this->escape($_SESSION['test_num_str'][$um['Mission_State']]);?>
-	<span style="font-size: 10px;"><?php echo $this->escape($um['Tec_Field']);?></span><span style="font-size: 16px; color: red; float: right;">N</span></p></div>
+	<span style="font-size: 10px;"><?php echo $this->escape($um['Tec_Field']);?></span><span style="font-size: 16px; color: red; float: right;"><?php echo $this->getApplyNum($um['Mission_ID']);?></span></p></div>
 	
 	<div align="left">
 	<div  style="float: left;">

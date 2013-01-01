@@ -1,39 +1,81 @@
-<table>
+<style>
 
-<?php if($_SESSION['have_result'] == 'yes') {?>
-<tr>
-    <th>账户编号</th>
-    <th>姓名</th>
-    <th>邮箱</th>
-    <th>图片</th>
-    <th>性别</th>
-    <th>手机号</th>
-    <th>自我评价</th>
-    <th>是否有活</th>
-    <th>擅长领域1</th>
-    <th>擅长领域2</th>
-    <th>擅长领域3</th>
-</tr>
-<?php } else{}?>
+.testerid{
+	
+	font-weight: bold;
+	color:#9393FF;
+	font-family: Helv;
+	
+}
+</style>
+<!-- 
+<style>
+.keyword {
+	margin: 10px;
+	width: 50px;
+	font-size: 13px;
+}
+.keyworddiv {
+	
+}
+</style>
+<hr />
+关键字：
+<div class="keyworddiv" style="width: 760px;">
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '单元测试'));?>" class="keyword">单元测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '集成测试'));?>" class="keyword">集成测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '系统测试'));?>" class="keyword">系统测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '功能测试'));?>" class="keyword">功能测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '安全性测试'));?>" class="keyword">安全性测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '容量测试'));?>" class="keyword">容量测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '完整性测试'));?>" class="keyword">完整性测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '结构测试'));?>" class="keyword">结构测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '用户界面测试'));?>" class="keyword">用户界面测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '负载测试'));?>" class="keyword">负载测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '压力测试'));?>" class="keyword">压力测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '疲劳强度测试'));?>" class="keyword">疲劳强度测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '恢复性测试'));?>" class="keyword">恢复性测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '配置测试'));?>" class="keyword">配置测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '兼容性测试'));?>" class="keyword">兼容性测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '安装测试'));?>" class="keyword">安装测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchtester', 'selected' => 'ForTester', 'keyword' => '其他测试'));?>" class="keyword">其他测试</a>
+</div>
+ -->
+
+
+
+<div id = 'alltesters'>
 
 <?php  foreach($this->result as $value) :  ?>
-<tr>
-    <td><?php echo $this->escape($value['Account_ID']);?></td>
-    <td><a href="<?php echo $this->url(array('controller'=>'index', 
-        'action'=>'testerdetail', 'fordetail_testerid' => $value['Account_ID'] ));?>"><?php echo $this->escape($value['Account_Name']);?></a></td>
-    <td><?php echo $this->escape($value['Account_Email']);?></td>
-    <td><?php echo $this->escape($value['Account_Icon']);?></td>
-    <td><?php echo $this->escape($value['Account_Sex']);?></td>
-    <td><?php echo $this->escape($value['Account_mobile']);?></td>
-    <td><?php echo $this->escape($value['Self_Discription']);?></td>
-    <td><?php echo $this->getTesterIsWorkingById($value['Account_ID']);?></td>
-    <td><?php echo   $_SESSION['test_num_str'][$this->getTesterField1ById($value['Account_ID'])];?></td>
-    <td><?php echo   $_SESSION['test_num_str'][$this->getTesterField2ById($value['Account_ID'])];?></td>
-    <td><?php echo   $_SESSION['test_num_str'][$this->getTesterField3ById($value['Account_ID'])];?></td>
-</tr>
+     <img src='<?php echo $this->getAccountIcon($value['Account_ID']);?>' style="float: left; margin-right: 10px; margin-bottom: 15px; width: 98px; height: 98px;"/>
+    <div style="margin-right: 10px; margin-bottom: 40px;">
+<ul>
+ 
+ <li>
+    <span class='testerid'>[<?php echo $this->escape($value['Account_ID']);?>]     </span>
+    <span>  <a href="<?php echo $this->url(array('controller'=>'index', 
+        'action'=>'testerdetail', 'fordetail_testerid' => $value['Account_ID'] ));?>"><?php echo $this->escape($value['Account_Name']);?></a></span>
+    <span>      <?php  if($this->escape($value['Account_Sex'])==0) echo '女'; else echo '男';?></span>
+    
+ </li>
+ <li>
+    <span>邮箱 <?php echo $this->escape($value['Account_Email']);?></span>
+    <span> 电话  <?php echo $this->escape($value['Account_mobile']);?></span>
+ </li>
+ <li>
+    <span>擅长领域  <?php echo   $_SESSION['test_num_str'][$this->getTesterField1ById($value['Account_ID'])];?></span>
+    <span>  <?php echo   $_SESSION['test_num_str'][$this->getTesterField2ById($value['Account_ID'])];?></span>
+    <span> <?php echo   $_SESSION['test_num_str'][$this->getTesterField3ById($value['Account_ID'])];?></span>
+ </li>
+</ul>
+</div>
+<hr />
 <?php endforeach; ?>
 
-</table>
+
+</div>
+
+
 
 
 

@@ -33,6 +33,13 @@ class TesterController extends Zend_Controller_Action {
 		$this->view->title = '测试人员中心';
 		
 		$this->view->tester = $_SESSION['tester'];
+
+		$iconFile = 'D:/www/TaskAllocatePro/pics/'.$_SESSION['testerId'].'/head.jpg';
+		if(file_exists($iconFile)){
+			$this->view->iconaddress = 'http://localhost/TaskAllocatePro/pics/'.$_SESSION['testerId'].'/head.jpg';
+		}else{
+			$this->view->iconaddress = 'http://localhost/TaskAllocatePro/public/image/head.jpg';
+		}
 		
 		$testerdb = new Application_Model_DbTable_Tester();
 		$result = $testerdb->fetchRow('Tester_ID = '.$_SESSION['testerId']);
@@ -63,11 +70,45 @@ class TesterController extends Zend_Controller_Action {
 		$account = new Application_Model_DbTable_Account();
 		$result = $account->fetchRow('Account_ID = '.$_SESSION['testerId']);
 		$this->view->sex = $result['Account_Sex'] == 1? '男' : '女';
+ 		$this->view->name = $result['Account_Name'];
 		$this->view->mobile = $result['Account_mobile'];
 		$this->view->icon = $result['Account_Icon'];
 		$this->view->selfdiscription = $result['Self_Discription'];
 	
 		$this->view->email = $_SESSION['testerEmail'];
+		if($this->getRequest()->getPost()) {
+			if($_POST['change'] == '确定') {
+				$datachange = array(
+						'Account_Sex' => $_POST['sex'],
+						'Account_mobile' => $_POST['mobile'],
+						'Self_Discription' => $_POST['selfdiscription'].''
+				);
+				$result = $account->fetchRow('Account_ID = '.$_SESSION['testerId']);
+			}else if($_POST['upload'] == '上传头像'){
+				$uploadDir = 'http://localhost/TaskAllocatePro/pics/'; //file upload path
+				$filename=iconv("utf-8","gbk",$_FILES['uploadfile']['name']);
+				$uploadFile = $uploadDir.$filename;
+				echo "<pre>";
+				if (move_uploaded_file($_FILES['uploadfile']['tmp_name'], $uploadFile))
+				{
+					echo "File is valid, and was successfully uploaded. ";
+					echo "Here's some more debugging info:\n";
+				}
+				else
+				{
+					echo "ERROR!  Here's some debugging info:\n";
+					echo "remember to check valid path, max filesize\n";
+					echo "$-POST-upload: ".$_POST['upload'];
+				}
+				echo "</pre>";
+			}
+		}
+		$iconFile = 'D:/www/TaskAllocatePro/pics/'.$_SESSION['testerId'].'/head.jpg';
+		if(file_exists($iconFile)){
+ 			$this->view->iconaddress = 'http://localhost/TaskAllocatePro/pics/'.$_SESSION['testerId'].'/head.jpg';
+		}else{
+			$this->view->iconaddress = 'http://localhost/TaskAllocatePro/public/image/head.jpg';
+		}
 	}
 	
 	public function testermissionAction() {
@@ -138,13 +179,37 @@ class TesterController extends Zend_Controller_Action {
 				}
 			}
 			
+			$uploadDir = 'D:/TaskAllocatePro/files/'; //file upload path
+			$filename=iconv("utf-8","gbk",$_FILES['uploadfile']['name']);
+			$folder = $this->_getParam('missionid');
+			$uploadFile = $uploadDir.$folder.'/tester/'.$filename;
+			if(!file_exists($uploadFile)){
+				mkdir($uploadDir.$folder,0777);
+				mkdir($uploadDir.$folder.'/tester',0777);
+			}else{
+			}
+			echo "<pre>";
+			if (move_uploaded_file($_FILES['uploadfile']['tmp_name'], $uploadFile))
+			{
+				echo "File is valid, and was successfully uploaded. ";
+				echo "Here's some more debugging info:\n";
+			}
+			else
+			{
+				echo "ERROR!  Here's some debugging info:\n";
+				echo "remember to check valid path, max filesize\n";
+				echo "$-POST-upload: ".$_POST['upload'];
+			}
+			echo "</pre>";
+			
 			$testmission = $testmissiondb->fetchRow('Mission_ID = '. $missionid);
 		}
 
 		$missiondb = new Application_Model_DbTable_Mission();
 		$mission = $missiondb->fetchRow('Mission_ID = '. $missionid);
 		
-		$this->view->title = $mission['Mission_Name'];
+		$this->view->title = '测试人员任务管理中心';
+		$this->view->missionname = $mission['Mission_Name'];
 		
 		$this->view->missionid = $missionid;
 		$this->view->applytime = $testmission['Test_Apply_Time'];
@@ -331,6 +396,16 @@ class TesterController extends Zend_Controller_Action {
 				$re = $recorddb->update($data, 'Mission_ID = '.$missionid);
 				if($re) {
 
+					//+1的实现！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+					$testerdb = new Application_Model_DbTable_Tester();
+					$tester = $testerdb->fetchRow('Tester_ID = '.$_SESSION['testerId']);
+					$where = $testerdb->getAdapter()->quoteInto('Tester_ID = ?', $_SESSION['testerId']);
+					$data = array(
+							'Finished_Counts' => $tester['Finished_Counts'] + 1
+					);
+					$result = $testerdb->update($data, $where);
+					
+					
 					$usermissiondb = new Application_Model_DbTable_UserMission();
 					$user = $usermissiondb->fetchRow('Mission_ID = '.$missionid);
 					
@@ -400,5 +475,67 @@ class TesterController extends Zend_Controller_Action {
 		$response = $this->getResponse();
 		$response->append('userstate', $this->view->render('userstate.phtml'));
 		
+		$this->view->title = '评价商家';
+    	$this->view->notice = '您已经完善好了交易信息，请填个评价吧！';
+    	$this->view->missionid = $missionid;
+    	
+    	if($this->getRequest()->getPost()) {
+    		$data = array(
+    				'User_Givenscore' => $_POST['score']/100,
+    				'User_Comment' => $_POST['comment']
+    				);
+    		$re = $recorddb->update($data, 'Mission_ID = '.$missionid);
+    		if($re) {
+
+    			
+    			$userdb = new Application_Model_DbTable_User();
+    			$user = $userdb->fetchRow('User_ID = '.$record['Release_User']);
+    			$oscore = $user['User_Averagescore'];
+    			$nscore = ($oscore*9 + $_POST['score']/100)/10;
+    			$userdb->update(array('User_Averagescore' => $nscore), 'User_ID = '.$record['Release_User']);
+    			
+    			
+    			
+    			
+    			if($record['Tester_Giventimingscore'] == null)
+    				$add = '您还未评论，去评论吧！';
+						$messagetitle = '测试人员已经评价好了';
+						$messagecontent = '<div>
+			<h4>评价内容</h4>
+								<p>分数：'.$_POST['score'].'</p>
+								<p>内容：</p>
+								<p>'.$_POST['comment'].'</p>
+								<p>'.$add.'</p>
+								</div>';
+						$datam = array(
+								'Publisher_ID' => $_SESSION['testerId'],
+								'Receiver_ID' => $record['Release_User'],
+								'Related_Mission_ID' => $missionid,
+								'Publish_Time' => date('Y-m-d H:i:s'),
+								'Message_Title' => $messagetitle,
+								'Message_Content' => $messagecontent
+						);
+						$messagedb = new Application_Model_DbTable_Message();
+						$resultm = $messagedb->insert($datam);
+		
+						if($resultm)
+    							$this->_helper->redirector('valuatesuccess');
+    			
+    		}else {
+
+    			$this->_helper->redirector('dberror', 'error');
+    		}
+    	}
+		
+	}
+	
+	public function valuatesuccessAction() {
+
+		session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
+		if(!$_SESSION['tester'])
+			$this->_helper->redirector('testerlogon', 'logon');
+
+		$response = $this->getResponse();
+		$response->append('userstate', $this->view->render('userstate.phtml'));
 	}
 }

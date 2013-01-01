@@ -1,0 +1,40 @@
+<?php 
+
+
+?>
+
+<hr />
+<ul>
+ 
+ <li>
+    <span>[<?php echo $this->recordvalue['Mission_ID'];?>]  </span>
+    <span>  
+          <?php echo $this->recordvalue['Mission_Name'];?></span>
+    <span>  商家      <?php echo $this->recordvalue['Release_User'];?></span>
+    <span>   测试人员   <?php echo $this->recordvalue['Tester'];?></span>
+ </li>
+ <li>
+    <span><?php echo $this->recordvalue['Tec_Field'];?></span>
+    <span> 成交金额  <?php echo $this->recordvalue['Price'];?></span>
+    <span> 简介  <?php echo $this->recordvalue['Mission_About'];?> </span>
+ </li>
+ <li>
+    <span>发布：  <?php echo substr($this->recordvalue['Release_Time'],0,10);?></span>
+    <span>  项目截止：  <?php echo substr($this->recordvalue['Tofinish_Time'],0,10);?></span>
+    <span> 申请~获准 ：<?php echo substr($this->recordvalue['Applied_Time'],0,10);?>~<?php echo substr($this->recordvalue['Agreed_Time'],0,10);?> </span>
+    
+    <span> 项目测试 ：<?php echo substr($this->recordvalue['Start_Time'],0,10);?>~<?php echo substr($this->recordvalue['Finished_Time'],0,10);?></span>
+    
+    <span> 完成交易： <?php echo substr($this->recordvalue['End_Time'],0,10);?></span>
+    
+ </li>
+ <li>
+    <span> 商家得分 <?php echo $this->recordvalue['User_Givenscore'];?></span>
+    <span> 测试人员速度分 <?php echo $this->recordvalue['Tester_Giventimingscore'];?></span>
+    <span> 测试人员质量分 <?php echo $this->recordvalue['Tester_Givenqualityscore'];?></span>
+    <span> 测试人员服务分 <?php echo $this->recordvalue['Tester_Givenmatescore'];?></span>
+ </li>
+</ul>
+
+
+

@@ -69,13 +69,15 @@ class IndexController extends Zend_Controller_Action
  		$this->view->title = 'Task Allocate Program';
  		
  		$missions = new Application_Model_DbTable_Mission();
- 		$missionscompleted = $missions->getmissioncompleted($_SESSION['userId'], 10);
+ 		
+ 		$recorddb = new Application_Model_DbTable_Record();
+ 		$missionscompleted = $recorddb->getmissioncompleted(10);
  		$this->view->missionscompleted = $missionscompleted;
  			
- 		$missionstesting = $missions->getmissiontesting($_SESSION['userId'], 10);
+ 		$missionstesting = $missions->getmissiontesting(10);
  		$this->view->missionstesting = $missionstesting;
  		
- 		$missionsnew = $missions->getmissionnew($_SESSION['userId'], 10);
+ 		$missionsnew = $missions->getmissionnew(10);
  		$this->view->missionsnew = $missionsnew;
  		
     	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
@@ -85,11 +87,14 @@ class IndexController extends Zend_Controller_Action
 
     public function findallprojectAction()
     {
+    	session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
     	 
     	$searcher = new Application_Model_DbTable_Mission();
     	$db = $searcher->getAdapter();
     	//$where = $db->quoteInto("");
-    	$result = $searcher->fetchAll()->toArray();
+    	$result = $searcher->fetchAll('Visible = 1')->toArray();
     	rsort($result);
     	$this->view->result = $result;
     	 
@@ -103,12 +108,19 @@ class IndexController extends Zend_Controller_Action
     		$_SESSION['have_result'] = 'no';
     
     	}
-    	 
+
+    	$missionsnew = $searcher->getmissionnew(10);
+    	$this->view->missionsnew = $missionsnew;
+    		
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
     }
     
     
     public function findalluserAction()
     {
+    	session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
     
     	$searcher = new Application_Model_DbTable_Account();
     	$db = $searcher->getAdapter();
@@ -126,10 +138,26 @@ class IndexController extends Zend_Controller_Action
     		$_SESSION['have_result'] = 'no';
     		 
     	}
+    	
+//  		$iconfile = 'D:/www/TaskAllocatePro/pics/'.$result['Account_ID'].'/head.jpg';
+//  		if(file_exists($iconfile)){
+//  			$this->view->iconaddress = 'http://localhost/TaskAllocatePro/pics/'.$result['Account_ID'].'/head.jpg';
+//  		}else{
+//  			$this->view->iconaddress = 'http://localhost/TaskAllocatePro/public/image/head.jpg';
+//  		}
+    	
+ 		$missions = new Application_Model_DbTable_Mission();
+ 		$missionsnew = $missions->getmissionnew(10);
+ 		$this->view->missionsnew = $missionsnew;
+ 		
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
     }
     
     public function findalltesterAction()
     {
+    	session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
     	$searcher = new Application_Model_DbTable_Account();
     	$db = $searcher->getAdapter();
     	$where = $db->quoteInto("Account_ID in (select Tester_ID from tester)");
@@ -146,10 +174,21 @@ class IndexController extends Zend_Controller_Action
     		$_SESSION['have_result'] = 'no';
     		 
     	}
+    	
+//  		$iconfile = 'D:/www/TaskAllocatePro/pics/'.$result['Account_ID'].'/head.jpg';
+//  		if(file_exists($iconfile)){
+//  			$this->view->iconaddress = 'http://localhost/TaskAllocatePro/pics/'.$result['Account_ID'].'/head.jpg';
+//  		}else{
+//  			$this->view->iconaddress = 'http://localhost/TaskAllocatePro/public/image/head.jpg';
+//  		}
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
     }
     
     public function findallrecordAction()
     {
+    	session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
         $searcher = new Application_Model_DbTable_Record();
    	    $db = $searcher->getAdapter();	
     	$result = $searcher->fetchAll()->toArray();
@@ -166,7 +205,13 @@ class IndexController extends Zend_Controller_Action
     		$_SESSION['have_result'] = 'no';
     		
     	}
-    
+
+    	
+ 		$missions = new Application_Model_DbTable_Mission();
+ 		$missionsnew = $missions->getmissionnew(10);
+ 		$this->view->missionsnew = $missionsnew;
+ 		
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
     
     }
 
@@ -225,13 +270,19 @@ class IndexController extends Zend_Controller_Action
     	
     	$keyword = $_SESSION['keyword'];
     	$selected = $_SESSION['selected'];
+    	
+    	if(!$keyword && !$selected && $this->_getParam('keyword') && $this->_getParam('selected')) {
+
+    		$keyword = $this->_getParam('keyword');
+    		$selected = $this->_getParam('selected');
+    	}
     	 
     	if($selected == 'ForRecord')
     	{
     	
     		$searcher = new Application_Model_DbTable_Record();
     		$db = $searcher->getAdapter();
-    		$where = $db->quoteInto("Mission_Name Like '%$keyword%' or Release_User Like '%$keyword%'");       //根据mission_about来查询
+    		$where = $db->quoteInto("Mission_Name Like '%$keyword%' or Release_User Like '%$keyword%' or Tec_Field Like '%$keyword%'");       //根据mission_about来查询
     		$result = $searcher->fetchAll($where)->toArray();
     		rsort($result);
     		$this->view->result = $result;
@@ -248,7 +299,12 @@ class IndexController extends Zend_Controller_Action
     		$this->view->message = $messagesorry;
     	}
     	
-    	
+
+    	$missions = new Application_Model_DbTable_Mission();
+    	$missionsnew = $missions->getmissionnew(10);
+    	$this->view->missionsnew = $missionsnew;
+    		
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
     }
      
     public function searchmissionAction()
@@ -259,13 +315,18 @@ class IndexController extends Zend_Controller_Action
     
     	$keyword = $_SESSION['keyword'];
     	$selected = $_SESSION['selected'];
+
+    	if(!$keyword && !$selected && $this->_getParam('keyword') && $this->_getParam('selected')) {
     	
+    		$keyword = $this->_getParam('keyword');
+    		$selected = $this->_getParam('selected');
+    	}
     	if($selected == 'ForMission')
     	{
     
     		$searcher = new Application_Model_DbTable_Mission();
     		$db = $searcher->getAdapter();
-    		$where = $db->quoteInto("Mission_About Like '%$keyword%' or Mission_Name Like '%$keyword%'");       //根据mission_about来查询
+    		$where = $db->quoteInto("Mission_About Like '%$keyword%' or Mission_Name Like '%$keyword%' or Tec_Field Like '%$keyword%' And Visible = 1");       //根据mission_about来查询
     		$result = $searcher->fetchAll($where)->toArray();
     		rsort($result);
     		$this->view->result = $result;
@@ -281,7 +342,12 @@ class IndexController extends Zend_Controller_Action
     		$messagesorry = '对不起，没有找到与  '.$keyword.'  相关的内容';
     		$this->view->message = $messagesorry;
     	}
-    	 
+
+    	$missions = new Application_Model_DbTable_Mission();
+    	$missionsnew = $missions->getmissionnew(10);
+    	$this->view->missionsnew = $missionsnew;
+    		
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
     }
      
     
@@ -293,7 +359,12 @@ class IndexController extends Zend_Controller_Action
     
     	$keyword = $_SESSION['keyword'];
     	$selected = $_SESSION['selected'];
-    	 
+
+    	if(!$keyword && !$selected && $this->_getParam('keyword') && $this->_getParam('selected')) {
+    	
+    		$keyword = $this->_getParam('keyword');
+    		$selected = $this->_getParam('selected');
+    	}
     	if($selected == 'ForUser')
     	{
     		$searcher = new Application_Model_DbTable_Account();
@@ -315,8 +386,20 @@ class IndexController extends Zend_Controller_Action
     		$messagesorry = '对不起，没有找到与  '.$keyword.'  相关的内容';
     		$this->view->message = $messagesorry;
     	}
-    	 
-    
+
+
+//     	$iconfile = 'D:/www/TaskAllocatePro/pics/'.$result['Account_ID'].'/head.jpg';
+//     	if(file_exists($iconfile)){
+//     		$this->view->iconaddress = 'http://localhost/TaskAllocatePro/pics/'.$result['Account_ID'].'/head.jpg';
+//     	}else{
+//     		$this->view->iconaddress = 'http://localhost/TaskAllocatePro/public/image/head.jpg';
+//     	}
+
+    	$missions = new Application_Model_DbTable_Mission();
+    	$missionsnew = $missions->getmissionnew(10);
+    	$this->view->missionsnew = $missionsnew;
+    		
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
     	 
     }
     
@@ -327,7 +410,12 @@ class IndexController extends Zend_Controller_Action
     	$response->append('userstate', $this->view->render('userstate.phtml'));
     	$keyword = $_SESSION['keyword'];
     	$selected = $_SESSION['selected'];
-    	 
+
+    	if(!$keyword && !$selected && $this->_getParam('keyword') && $this->_getParam('selected')) {
+    	
+    		$keyword = $this->_getParam('keyword');
+    		$selected = $this->_getParam('selected');
+    	}
     	if($selected == 'ForTester')
     	{
     		$searcher = new Application_Model_DbTable_Account();
@@ -350,6 +438,18 @@ class IndexController extends Zend_Controller_Action
     		$messagesorry = '对不起，没有找到与  '.$keyword.'  相关的内容';
     		$this->view->message = $messagesorry;
     	}
+    	
+//  		$iconfile = 'D:/www/TaskAllocatePro/pics/'.$result['Account_ID'].'/head.jpg';
+//  		if(file_exists($iconfile)){
+//  			$this->view->iconaddress = 'http://localhost/TaskAllocatePro/pics/'.$result['Account_ID'].'/head.jpg';
+//  		}else{
+//  			$this->view->iconaddress = 'http://localhost/TaskAllocatePro/public/image/head.jpg';
+//  		}
+ 		$missions = new Application_Model_DbTable_Mission();
+ 		$missionsnew = $missions->getmissionnew(10);
+ 		$this->view->missionsnew = $missionsnew;
+ 		
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
     }
     
     public function missionAction() {
@@ -386,12 +486,16 @@ class IndexController extends Zend_Controller_Action
     	$this->view->bidding = $mission['Bidding'];
     	$this->view->fathermission = $mission['Father_Mission'];
     	$this->view->premission = $mission['Pre_Mission'];
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
     }
     
     
     
     public function userdetailAction()
     {
+    	session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
     	$userid = $this->_getParam('fordetail_userid');
     	
     	$searcher = new Application_Model_DbTable_Account();
@@ -405,12 +509,20 @@ class IndexController extends Zend_Controller_Action
     	$where1 = $db1->quoteInto("User_ID = ?",$userid);
     	$result1 = $searcher1->fetchRow($where1)->toArray();
     	$this->view->useralone = $result1;
-    	
+
+    	$missions = new Application_Model_DbTable_Mission();
+    	$missionsnew = $missions->getmissionnew(10);
+    	$this->view->missionsnew = $missionsnew;
+    		
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
     	
     }
     
     public function testerdetailAction()
     {
+    	session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
     	 $testerid = $this-> _getParam('fordetail_testerid');
     	
     	$searcher = new Application_Model_DbTable_Account();
@@ -425,12 +537,29 @@ class IndexController extends Zend_Controller_Action
     	$where1 = $db1->quoteInto("Tester_ID = ?",$testerid);
     	$result1 = $searcher1->fetchRow($where1)->toArray();
     	$this->view->testeralone = $result1;
-    	 
+
+    	$missions = new Application_Model_DbTable_Mission();
+    	$missionsnew = $missions->getmissionnew(10);
+    	$this->view->missionsnew = $missionsnew;
+    		
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
     }
     
     
     public function missiondetailAction()
     {
+    	session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
+    	$missiondb = new Application_Model_DbTable_Mission();
+    	$mission = $missiondb->fetchRow('Mission_ID = '.$this->_getParam('missionid'));
+
+    	$this->view->visible = $mission['Visible'];
+    	if($mission['Visible'] == 0) {
+    		//提示登录
+    		//$_SESSION[]
+    		$this->_helper->redirector('accessrefused', 'error');
+    	}
     	 $missionid = $this->_getParam('fordetail_missionid');
     	 
     	 $searcher = new Application_Model_DbTable_Mission();
@@ -451,7 +580,47 @@ class IndexController extends Zend_Controller_Action
     	 $where2 = $db2->quoteInto("Account_ID = ?",$result1['User_ID']);
     	 $result2 = $searcher2->fetchRow($where2)->toArray();
     	 $this->view->missionuser_account = $result2;
+
+    	 $missions = new Application_Model_DbTable_Mission();
+    	 $missionsnew = $missions->getmissionnew(10);
+    	 $this->view->missionsnew = $missionsnew;
+    	 	
+    	 $response->append('sidebar', $this->view->render('index/sidebar.phtml'));
+    }
+    
+
+    public function recorddetailAction()
+    {
+    	session_start();//需要在每个页面的开始运行此代码，否则该页面中不识别session
+    	$response = $this->getResponse();
+    	$response->append('userstate', $this->view->render('userstate.phtml'));
     	 
+    	$recordid = $this->_getParam('fordetail_recordid');
+    	 
+    	 
+    
+    	$searcher = new Application_Model_DbTable_Record();
+    	$db = $searcher->getAdapter();
+    	$where = $db->quoteInto("Mission_ID = ?", $recordid);       //根据mission_about来查询
+    	$result = $searcher->fetchRow($where)->toArray();
+    	 
+    	$this->view->recordvalue = $result;
+
+    	$missions = new Application_Model_DbTable_Mission();
+    	$missionsnew = $missions->getmissionnew(10);
+    	$this->view->missionsnew = $missionsnew;
+    		
+    	$response->append('sidebar', $this->view->render('index/sidebar.phtml'));
+    
+    }
+    
+    public function goprivatecenterAction() {
+    	if($_SESSION['user'])
+    		$this->_forward('index', 'user');
+    	else if($_SESSION['tester'])
+    		$this->_forward('index', 'tester');
+    	else $this->_forward('logon', 'logon');
+    	
     }
 }
 

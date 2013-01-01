@@ -386,15 +386,16 @@ class PublishmissionController extends Zend_Controller_Action {
 		$this->view->title = '任务发布成功';
 		
 //+1的实现！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-/* 		$userdb = new Application_Model_DbTable_User();
+ 		$userdb = new Application_Model_DbTable_User();
+ 		$user = $userdb->fetchRow('User_ID = '.$_SESSION['userId']);
 		$where = $userdb->getAdapter()->quoteInto('User_ID = ?', $_SESSION['userId']);
 		$data = array(
-				'Submittedmission_counts' => $_SESSION['userMissioncount'] + 1
+				'Submittedmission_counts' => $user['Submittedmission_counts'] + 1
 				);
 		$result = $userdb->update($data, $where);
 		if($result) {
 			//echo '<script>alert "'.$um['Mission_ID'].'";</script>';
 		}
-		else $this->_helper->redirector('error', 'error'); */
+		else $this->_helper->redirector('error', 'error');
 	}
 }

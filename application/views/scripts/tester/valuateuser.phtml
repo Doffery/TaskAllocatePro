@@ -1,1 +1,15 @@
-<?php
+<form action="<?php echo $this->url(array('controller' => 'user', 'action'=>'valuateuser')); ?>" method="post">
+<p>总体评价</p>
+<input type="hidden" name="missionid" value="<?php echo $this->missionid;?>" />
+<input type="range" name="score" id="scorerange" onchange="_score()"/>
+<input type="number" name="score" id="score" readonly="readonly" value="50"/>
+
+<textarea name="comment" id="comment" cols="50" rows="5"
+	onfocus="if (this.value=='不少于5个字') this.value='';">不少于5个字</textarea>
+	<input type="submit" name="submit" value="确定"/>
+</form>
+<script type="text/javascript">
+function _score() {
+	document.getElementById('score').value = document.getElementById('scorerange').value;
+}
+</script>

@@ -1,13 +1,44 @@
-<p>姓名 ： <?php  echo $this->testeraccount ['Account_Name']; ?>  </p>
-<p>账号 ： <?php  echo $this->testeraccount ['Account_ID']; ?>  </p>
-<p>邮箱 ： <?php  echo $this->testeraccount ['Account_Email']; ?>  </p>
-<p>性别 ： <?php  echo $this->testeraccount ['Account_Sex']; ?>  </p>
-<p>手机 ： <?php  echo $this->testeraccount ['Account_mobile']; ?>  </p>
+
+<style>
+
+.testername{
+	
+	font-weight: bold;
+	color:#9393FF;
+	font-family: Helv;
+	font-size:30px;
+}
+
+.average{
+	
+	style="float: right";
+}
+
+</style>
+
+<?php 
+   $timing = $this->testeralone ['Timing_Score'];
+   $quality =  $this->testeralone ['Quality_Score'];
+   $mate = $this->testeralone ['Mate_Score'];
+   $average = sprintf("%.2f",($timing+$quality+$mate)/3);
+?>
+
+<img src='<?php echo $this->baseUrl();?>/image/head.jpg' style="float: top; margin-right: 10px; margin-bottom: 15px;"/>
+
+<p > <span class='testername'><?php  echo $this->testeraccount ['Account_Name']; ?></span> [<?php  echo $this->testeraccount ['Account_ID']; ?>] </p>
+<p>联系方式 <?php  echo $this->testeraccount ['Account_mobile']; ?> <?php  echo $this->testeraccount ['Account_Email']; ?> </p>
+
+<p>性别 ： <?php  if($this->testeraccount ['Account_Sex']==0) echo '女'; else echo '男'; ?>  </p>
+
+
+
+<p>擅长领域 ： <?php  echo $_SESSION['test_num_str'][$this->testeralone ['Expert_Field1']]; ?>    <?php  echo $_SESSION['test_num_str'][$this->testeralone ['Expert_Field2']]; ?>   <?php  echo $_SESSION['test_num_str'][$this->testeralone ['Expert_Field3']]; ?> </p>
+<p>已完成数量 ： <?php  echo $this->testeralone ['Finished_Counts']; ?>  </p>
+<p>质量分 ： <?php  echo $this->testeralone ['Quality_Score']; ?> 
+         及时度 ： <?php  echo $this->testeralone ['Timing_Score']; ?>
+         服务 ： <?php  echo $this->testeralone ['Mate_Score']; ?> 
+   <span class='average' >综合 ： <?php  echo $average; ?>  </span></p>
+
+
+
 <p>自我评价 ： <?php  echo $this->testeraccount ['Self_Discription']; ?>  </p>
-<p>已完成数量 ： <?php  echo $this->testeraccount ['Finished_Counts']; ?>  </p>
-<p>质量分 ： <?php  echo $this->testeraccount ['Quality_Score']; ?>  </p>
-<p>及时度 ： <?php  echo $this->testeraccount ['Timing_Score']; ?>  </p>
-<p>总平局分 ： <?php  echo $this->testeraccount ['Mate_Score']; ?>  </p>
-<p>擅长领域1 ： <?php  echo $_SESSION['test_num_str'][$this->testeralone ['Expert_Field1']]; ?>  </p>
-<p>擅长领域2 ： <?php  echo $_SESSION['test_num_str'][$this->testeralone ['Expert_Field2']]; ?>  </p>
-<p>擅长领域3 ： <?php  echo $_SESSION['test_num_str'][$this->testeralone ['Expert_Field3']]; ?>  </p>

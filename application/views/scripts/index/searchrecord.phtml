@@ -1,61 +1,90 @@
-<table>
 
-<?php if($_SESSION['have_result'] == 'yes') {?>
-<tr>
-    <th>任务编号</th>
-    <th>任务名称</th>
-    <th>商家姓名</th>
-    <th>测试人员</th>
-    <th>技术范围</th>
-    <th>关于</th>
-    <th>内容</th>
-    <th>成交金额</th>
-    <th>父任务</th>
-    <th>前任务</th>
-    <th>商家被评分</th>
-    <th>测试人员时间得分</th>
-    <th>测试人员质量得分</th>
-    <th>测试人员服务得分</th>
-    <th>发布时间</th>
-    <th>期限</th>
-    <th>申请时间</th>
-    <th>同意申请时间</th>
-    <th>开始测试时间</th>
-    <th>完成测试时间</th>
-    <th>结束时间</th>
-</tr>
-<?php } else{}?>
+
+<style>
+
+.recordid{
+	
+	font-weight: bold;
+	color:#9393FF;
+	font-family: Helv;
+	
+}
+</style>
+
+<style>
+.keyword {
+	margin: 10px;
+	width: 50px;
+	font-size: 13px;
+}
+.keyworddiv {
+	
+}
+</style>
+<hr />
+关键字：
+<div class="keyworddiv" style="width: 760px;">
+
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '集成测试'));?>" class="keyword">集成测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '系统测试'));?>" class="keyword">系统测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '功能测试'));?>" class="keyword">功能测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '安全性测试'));?>" class="keyword">安全性测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '容量测试'));?>" class="keyword">容量测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '完整性测试'));?>" class="keyword">完整性测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '结构测试'));?>" class="keyword">结构测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '用户界面测试'));?>" class="keyword">用户界面测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '负载测试'));?>" class="keyword">负载测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '压力测试'));?>" class="keyword">压力测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '疲劳强度测试'));?>" class="keyword">疲劳强度测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '恢复性测试'));?>" class="keyword">恢复性测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '配置测试'));?>" class="keyword">配置测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '兼容性测试'));?>" class="keyword">兼容性测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '安装测试'));?>" class="keyword">安装测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchrecord', 'selected' => 'ForRecord', 'keyword' => '其他测试'));?>" class="keyword">其他测试</a>
+</div>
+
+
+
+<div id = 'allrecords'>
 
 <?php  foreach($this->result as $value) :  ?>
-<tr>
-    <td><?php echo $this->escape($value['Mission_ID']);?></td>
-    <td> <?php echo $this->escape($value['Mission_Name']);?></td>
-    <td><?php echo $this->escape($value['Release_User']);?></td>
-    <td><?php echo $this->escape($value['Tester']);?></td>
-    <td><?php echo $this->escape($value['Tec_Field']);?></td>
-    <td><?php echo $this->escape($value['Mission_About']);?></td>
-    <td><?php echo $this->escape($value['Mission_Content']);?></td>
-    <td><?php echo $this->escape($value['Price']);?></td>
-    <td><?php echo $this->escape($value['Father_Mission']);?></td>
-    <td><?php echo $this->escape($value['Pre_Mission']);?></td>
-    <td><?php echo $this->escape($value['User_Givenscore']);?></td>
-    <td><?php echo $this->escape($value['Tester_Giventimingscore']);?></td>
-    <td><?php echo $this->escape($value['Tester_Givenqualityscore']);?></td>
-    <td><?php echo $this->escape($value['Tester_Givenmatescore']);?></td>
-    <td><?php echo $this->escape($value['Release_Time']);?></td>
-    <td><?php echo $this->escape($value['Tofinish_Time']);?></td>
-    <td><?php echo $this->escape($value['Applied_Time']);?></td>
-    <td><?php echo $this->escape($value['Agreed_Time']);?></td>
-    <td><?php echo $this->escape($value['Start_Time']);?></td>
-    <td><?php echo $this->escape($value['Finished_Time']);?></td>
-    <td><?php echo $this->escape($value['End_Time']);?></td>
+
+<ul style="padding-left: 0px;">
+ 
+ <li>
+    <span class='recordid'>[<?php echo $this->escape($value['Mission_ID']);?>]     </span>
+    <span>  <?php echo $this->escape($value['Mission_Name']);?></span>
+    <span>  商家      <a href="<?php echo $this->url(array('controller' => 'index',
+    		'action' => 'userdetail', 'fordetail_userid' => $value['Release_User']));?>"><?php echo $this->escape($this->getAccountNameById($value['Release_User']));?></a></span>
+    <span>   测试人员   <a href="<?php echo $this->url(array('controller' => 'index',
+    		'action' => 'testerdetail', 'fordetail_testerid' => $value['Release_User']));?>"><?php echo $this->escape($this->getAccountNameById($value['Tester']));?></a></span>
+ </li>
+ <li>
+    <span><?php echo $this->escape($value['Tec_Field']);?></span>
+    <span style="float: right; width: 100px;"> ￥ <?php echo $this->escape($value['Price']);?></span>
+    <span> 简介  <?php echo $this->escape($value['Mission_About']);?> </span>
+ </li>
+ <li>
+    <span>发布：  <?php echo substr($this->escape($value['Release_Time']),0,10);?></span>
+    <span>  项目截止：  <?php echo substr($this->escape($value['Tofinish_Time']),0,10);?></span>
+    <span> 申请~获准 ：<?php echo substr($this->escape($value['Applied_Time']),0,10);?>~<?php echo substr($this->escape($value['Agreed_Time']),0,10);?> </span>
     
+    <span> 项目测试 ：<?php echo substr($this->escape($value['Start_Time']),0,10);?>~<?php echo substr($this->escape($value['Finished_Time']),0,10);?></span>
     
-</tr>
+    <span> 完成交易： <?php echo substr($this->escape($value['Finished_Time']),0,10);?></span>
+    
+ </li>
+ <li>
+    <span> 商家得分 <?php echo $this->escape($value['User_Givenscore']);?></span>
+    <span> 测试人员速度分 <?php echo $this->escape($value['Tester_Giventimingscore']);?></span>
+    <span> 测试人员质量分 <?php echo $this->escape($value['Tester_Givenqualityscore']);?></span>
+    <span> 测试人员服务分 <?php echo $this->escape($value['Tester_Givenmatescore']);?></span>
+ </li>
+</ul>
+<hr />
 <?php endforeach; ?>
 
-</table>
 
-
+</div>
 
 <h1> <?php echo $this->escape($this->message);?></h1>

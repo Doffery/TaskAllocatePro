@@ -1,14 +1,35 @@
-<p>任务名称： <?php  echo $this->missionalone ['Mission_Name']; ?>  </p>
-<p>发布时间： <?php  echo $this->missionalone ['Realse_Time']; ?>  </p>
-<p>申请截止时间： <?php  echo $this->missionalone ['Apply_Deadline']; ?>  </p>
-<p>完成截止时间： <?php  echo $this->missionalone ['Finishe_Deadline']; ?>  </p>
+<style>
+
+.missionname{
+	
+	font-weight: bold;
+	color:#9393FF;
+	font-family: Helv;
+	font-size:30px;
+}
+
+.time{
+	
+	color:#84C1FF;
+}
+
+</style>
+
+
+
+<p > <span class='missionname'><?php  echo $this->missionalone ['Mission_Name']; ?></span> 由 <?php  echo $this->missionuser_account ['Account_Name']; ?>发布
+ <span style='float:right'>价格区间    ￥ <?php  echo $this->missionalone ['Lowest_Price']; ?>~￥ <?php  echo $this->missionalone ['Highest_Price']; ?> </span></p>
+<p ><span class='time'>发布时间： </span><?php  echo $this->missionalone ['Release_Time']; ?>  </p>
+<p><span class='time'>申请截止：</span> <?php  echo $this->missionalone ['Apply_Deadline']; ?> <span class='time'>完成截止：</span> <?php  echo $this->missionalone ['Finish_Deadline']; ?> </p>
+
+
+<p>发布者账号： <?php  echo $this->missionuser ['User_ID']; ?>  </p>
+<p>任务类型： <?php  echo $_SESSION['test_num_str'][$this->missionalone ['Mission_State']]; ?>  </p>
+
 <p>技术领域： <?php  echo $this->missionalone ['Tec_Field']; ?>  </p>
 <p>相关内容： <?php  echo $this->missionalone ['Mission_About']; ?>  </p>
-<p>最低价： <?php  echo $this->missionalone ['Lowest_Price']; ?>  </p>
-<p>最高价： <?php  echo $this->missionalone ['Highest_Price']; ?>  </p>
-<p>任务状态： <?php  echo $this->missionalone ['Mission_State']; ?>  </p>
-<p>任务陈述： <?php  echo $this->missionalone ['Mission_Content']; ?>  </p>
-<p>父任务号： <?php  echo $this->missionalone ['Father_Mission']; ?>  </p>
-<p>前任务号： <?php  echo $this->missionalone ['Pre_Mission']; ?>  </p>
-<p>发布者账号： <?php  echo $this->missionuser ['User_ID']; ?>  </p>
-<p>发布者名字： <?php  echo $this->missionuser_account ['Account_Name']; ?>  </p>
+
+
+
+
+

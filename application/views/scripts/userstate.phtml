@@ -5,6 +5,13 @@ Hi! <a href="<?php
 			'action' => 'index' 
 	) );
 	?>"><?php echo $this->escape($_SESSION['user'])?></a>
+	
+	<?php if($this->getMessageNew($_SESSION['userId'])) {?>
+	<a href="<?php echo $this->url(array('controller' => 'user',
+			'action' => 'usermessage'));?>" style="background-color: red;" title="新消息！"><?php echo $this->getMessageNew($_SESSION['userId']);?></a>
+	<?php }?>
+	
+	
 	<a href="<?php echo $this->url(array('controller'=>'logon', 
         'action'=>'logoff'));?>">注销</a>
 <?php } else if(isset($_SESSION['tester'])) {?>
@@ -14,11 +21,13 @@ Hi! <a href="<?php
 			'action' => 'index' 
 	) );
 	?>"><?php echo $this->escape($_SESSION['tester'])?></a>
+	<?php if($this->getMessageNew($_SESSION['testerId'])) {?>
+	<a href="<?php echo $this->url(array('controller' => 'tester',
+			'action' => 'testermessage'));?>" style="background-color: red;" title="新消息！"><?php echo $this->getMessageNew($_SESSION['testerId']);?></a>
+	<?php }?>
 	<a href="<?php echo $this->url(array('controller'=>'logon', 
         'action'=>'logoff'));?>">注销</a>
 <?php } else {?>
 	<a href="<?php echo $this->url(array('controller'=>'logon', 
         'action'=>'logon'));?>">登录</a>
-	<a href="<?php echo $this->url(array('controller'=>'logon', 
-        'action'=>'register'));?>">/注册</a>
 <?php }?>

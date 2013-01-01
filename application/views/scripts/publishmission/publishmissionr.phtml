@@ -1,41 +1,73 @@
-
+<style>
+<!--
+#mission_space div{
+	height:50px;
+}
+#mission_info{
+	height:100px;
+}
+#mission_info textarea{
+	height:80px;
+	width:200px;
+}
+#mission_space div label{
+	float:left;
+	width:120px;
+	display: inline-block;
+	text-align:left
+}
+#mission_space div input{
+	display: inline-block;
+}
+#submit_button {
+	margin-top: 50px;
+	width:50px;
+	height:30px;
+	font-size:18px;
+}
+-->
+</style>
 
 <form
 	action="<?php echo $this->url(array('controller'=>'publishmission', 'action'=>'publishmissionr')); ?>"
 	method="post" onsubmit="return _validate();">
 	<input type="hidden" name="missiontype" value="<?php echo 2;?>" />
 	<input type="hidden" name="missionvisible" value="<?php echo 1;?>" />
-	<table>
-		<tr>
-			<td><input type="checkbox" name="integration" id="integration" /></td>
-			<td>由多个单元测试或集成测试集成</td>
-		</tr>
-	</table>
-	<p>
-		任务名称
+	<div style="margin-bottom:20px;">
+			<input type="checkbox" name="integration" id="integration" />
+			<label>由多个单元测试或集成测试集成</label>
+	</div>	
+	<div id="mission_space">
+	<div>
+		<label>任务名称</label>
 		<input type="text" name="missionname" id="missionname" maxLength=40 />
-	</p>
-	<p>
-		价格区间<input type="number" name="lowprice" id="lowprice" />~
+	</div>
+	<div>
+		<label>价格区间</label>
+		<input type="number" name="lowprice" id="lowprice" />~
 		<input type="number" name="highprice" id="highprice" />元
-	</p>
-	<p>
-		申请截止日期<input type="date" name="applicationdate"
-			id="applicationdate"  onclick="new Calendar().show(this);" readonly="readonly" />
-	</p>
-	<p>
-		任务完成日期<input type="date" name="finishdate" id="finishdate"  onclick="new Calendar().show(this);" readonly="readonly" />
-	</p>
- 	<p>
-		任务技术领域<input type="text" name="tecfield" id="tecfield" />
-	</p>
-	
-	
-	<p>任务简介：</p>
+	</div>
+	<div>
+		<label>申请截止日期</label>
+		<input type="date" name="applicationdate"
+			id="applicationdate" onclick="new Calendar().show(this);" readonly="readonly" />
+	</div>
+	<div>
+		<label>任务完成日期</label>
+		<input type="date" name="finishdate"
+		 id="finishdate"  onclick="new Calendar().show(this);" readonly="readonly"/>
+	</div>
+	<div>
+		<label>任务技术领域</label>
+		<input type="text" name="tecfield" id="tecfield" />
+	</div>
+	<div id="mission_info">
+	<label>任务简介</label>
 	<textarea name="missioncontent" id="missioncontent" cols="" rows=""
 		onfocus="if (this.value=='不少于5个字') this.value='';">不少于5个字</textarea>
-
-	<input type="submit" name="submit" id="submit" value="确定" />
+	</div>
+	</div>
+	<input id="submit_button" type="submit" name="submit" id="submit" value="发布" />
 </form>
 
 

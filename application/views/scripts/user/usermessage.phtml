@@ -23,8 +23,8 @@
 					 'fordetail_testerid' => $mp['Publisher_ID']));
 			?>"><?php echo $this->getAccountNameById($mp['Publisher_ID']);?></a>
 		消息发布时间：<?php echo $mp['Publish_Time'];?>
-			相关任务：<a href="<?php echo $this->url(array('controller' => 'index',
-					 'action' => 'mission',
+			相关任务：<a href="<?php echo $this->url(array('controller' => 'user',
+					 'action' => 'missionmanage',
 					 'missionid' => $mp['Related_Mission_ID']));
 			?>"><?php echo $this->getMissionNameById($mp['Related_Mission_ID']);?></a>
 		

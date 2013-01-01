@@ -3,9 +3,14 @@
 <?php require_once 'testermenu.phtml';?>
 </div>	
 
+<img src="<?php echo $this->iconaddress;?>" title="icon" style="float: left; margin: 30px 20px 20px 20px; width: 98px; height: 98px;"/>
 <h2><?php echo $this->escape($this->tester);?></h2>
-<p>商家评价：<?php echo $this->escape($this->score);?></p>
+<div style="font-size: 10px;">
+<p>速度评价：<?php echo $this->escape($this->quality_score);?></p>
+<p>质量评价：<?php echo $this->escape($this->timing_score);?></p>
+<p>态度评价：<?php echo $this->escape($this->mate_score);?></p>
 <p>完成的任务数：<?php echo $this->escape($this->missioncount);?></p>
+</div>
 
 
 <h2>最近申请的任务</h2>

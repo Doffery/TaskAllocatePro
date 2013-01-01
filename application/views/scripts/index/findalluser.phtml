@@ -1,36 +1,64 @@
 <?php
    echo '商家中心';
 ?>
-<table>
-
-<?php if($_SESSION['have_result'] == 'yes') {?>
-<tr>
-    <th>账户编号</th>
-    <th>姓名</th>
-    <th>邮箱</th>
-    <th>图片</th>
-    <th>性别</th>
-    <th>手机号</th>
-    <th>自我评价</th>
-    <th>合作数量</th>
-    <th>评分</th>
-</tr>
-<?php } else{}?>
+<!-- 
+<style>
+.keyword {
+	margin: 10px;
+	width: 50px;
+	font-size: 13px;
+}
+.keyworddiv {
+	
+}
+</style>
+<hr />
+关键字：
+<div class="keyworddiv" style="width: 760px;">
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '单元测试'));?>" class="keyword">单元测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '集成测试'));?>" class="keyword">集成测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '系统测试'));?>" class="keyword">系统测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '功能测试'));?>" class="keyword">功能测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '安全性测试'));?>" class="keyword">安全性测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '容量测试'));?>" class="keyword">容量测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '完整性测试'));?>" class="keyword">完整性测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '结构测试'));?>" class="keyword">结构测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '用户界面测试'));?>" class="keyword">用户界面测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '负载测试'));?>" class="keyword">负载测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '压力测试'));?>" class="keyword">压力测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '疲劳强度测试'));?>" class="keyword">疲劳强度测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '恢复性测试'));?>" class="keyword">恢复性测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '配置测试'));?>" class="keyword">配置测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '兼容性测试'));?>" class="keyword">兼容性测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '安装测试'));?>" class="keyword">安装测试</a>
+<a href="<?php echo $this->url(array('action' => 'searchuser', 'selected' => 'ForUser', 'keyword' => '其他测试'));?>" class="keyword">其他测试</a>
+</div> -->
+<div id = 'allusers'>
 
 <?php  foreach($this->result as $value) :  ?>
-<tr>
-    <td><?php echo $this->escape($value['Account_ID']);?></td>
-    <td><a href="<?php echo $this->url(array('controller'=>'index', 
-        'action'=>'userdetail', 'fordetail_userid' => $value['Account_ID'] ));?>"><?php echo $this->escape($value['Account_Name']);?></a></td>
-    <td><?php echo $this->escape($value['Account_Email']);?></td>
-    <td><?php echo $this->escape($value['Account_Icon']);?></td>
-    <td><?php echo $this->escape($value['Account_Sex']);?></td>
-    <td><?php echo $this->escape($value['Account_mobile']);?></td>
-    <td><?php echo $this->escape($value['Self_Discription']);?></td>
-
-    <td><?php echo $this->getUserSubCountsById($value['Account_ID']);?></td>
-    <td><?php echo $this->getUserScoreById($value['Account_ID']);?></td>
-</tr>
+<hr />
+       <img src='<?php echo $this->getAccountIcon($value['Account_ID']);?>' style="float: left; margin-right: 10px; margin-bottom: 15px; width: 98px; height: 98px;"/>
+    <div style="margin-right: 10px; margin-bottom: 40px;">
+<ul>
+ 
+ <li>
+    <span class='userid'>[<?php echo $this->escape($value['Account_ID']);?>]     </span>
+    <span>  <a href="<?php echo $this->url(array('controller'=>'index', 
+        'action'=>'userdetail', 'fordetail_userid' => $value['Account_ID'] ));?>"> <?php echo $this->escape($value['Account_Name']);?></a></span>
+    <span>        <?php  if($this->escape($value['Account_Sex'])==0) echo '女'; else echo '男';?></span>
+ </li>
+ <li>
+    <span>邮箱 <?php echo $this->escape($value['Account_Email']);?></span>
+    <span> 电话  <?php echo $this->escape($value['Account_mobile']);?></span>
+ </li>
+ <li>
+    <span>合作数量  <?php echo $this->getUserSubCountsById($value['Account_ID']);?></span>
+    <span>  总评分   <?php echo $this->getUserScoreById($value['Account_ID']);?></span>
+    <span> 自我陈述 <?php echo $this->escape($value['Self_Discription']);?> </span>
+ </li>
+</ul>
+</div>
 <?php endforeach; ?>
 
-</table>
+
+</div>

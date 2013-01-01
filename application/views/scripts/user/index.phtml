@@ -10,7 +10,8 @@
 <a href="<?php echo $this->url(array(
 								'controller'=>'publishmission',
         						'action'=>'chooseredirector'));?>" id="publish" style="margin-left: 500px;">发布任务</a>
-<img src="<?php echo $this->baseUrl();?>/image/head.jpg" title="暂无头像功能" style="float: left; margin: 20px;"/>
+<img src="<?php echo $this->iconaddress;?>" title="icon" style="float: left; margin: 30px 20px 20px 20px; width: 98px; height: 98px;"/>
+
 <div style="float: left; margin: 0px;">
 <h2><?php echo $this->escape($this->user);?></h2>
 <p>测试人员评价：<?php echo $this->escape($this->score);?></p>

@@ -1,4 +1,6 @@
 <h1>你麻痹的，成功了！！</h1>
-<p>welcome! <?php echo $this->escape($this->tester)?></p>
+<p>welcome! <a href="<?php echo $this->url(array(
+					'controller' => 'tester',
+	'action' => 'index' ));?>"><?php echo $this->escape($this->tester)?></a></p>
 <h2><a href="<?php echo $this->url(array('controller'=>'index', 
         'action'=>'index'));?>">任务</a></h2>

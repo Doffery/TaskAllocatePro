@@ -115,17 +115,17 @@ class Application_Model_DbTable_Mission extends Zend_Db_Table_Abstract {
 	
 	}
 
-	public function getmissioncompleted($userId, $num) {
+	public function getmissioncompleted($num) {
 		
 	}
 
-	public function getmissiontesting($userId, $num) {
+	public function getmissiontesting($num) {
 		$result = $this->fetchAll('Bidding = 0 And Visible = 1','Mission_ID DESC',$num)->toArray();
 		rsort($result);
 		return $result;
 	}
 
-	public function getmissionnew($userId, $num) {
+	public function getmissionnew($num) {
 		$result = $this->fetchAll('Bidding = 1 And Visible = 1','Mission_ID DESC',$num)->toArray();
 		rsort($result);
 		return $result;

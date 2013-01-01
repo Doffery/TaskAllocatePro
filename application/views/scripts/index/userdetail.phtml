@@ -1,10 +1,29 @@
 
+<style>
+
+.username{
+	
+	font-weight: bold;
+	color:#9393FF;
+	font-family: Helv;
+	font-size:30px;
+}
+.titles{
+	
+	color: #8CEA00;
+}
+
+}
+
+</style>
    
-<p>姓名 ： <?php  echo $this->useraccount ['Account_Name']; ?>  </p>
-<p>账号 ： <?php  echo $this->useraccount ['Account_ID']; ?>  </p>
-<p>邮箱 ： <?php  echo $this->useraccount ['Account_Email']; ?>  </p>
-<p>性别 ： <?php  echo $this->useraccount ['Account_Sex']; ?>  </p>
-<p>手机 ： <?php  echo $this->useraccount ['Account_mobile']; ?>  </p>
-<p>自我评价 ： <?php  echo $this->useraccount ['Self_Discription']; ?>  </p>
-<p>综合评分： <?php  echo $this->useralone ['Submittedmissiono_counts']; ?>  </p>
-<p>成交数量： <?php  echo $this->useralone ['User_Averagescore']; ?>  </p>
+   
+<img src='<?php echo $this->baseUrl();?>/image/head.jpg' style="float: top; margin-right: 10px; margin-bottom: 15px;"/>   
+<p ><span class="username"> <?php  echo $this->useraccount ['Account_Name']; ?></span> [<?php  echo $this->useraccount ['Account_ID']; ?>] 
+<?php  if($this->useraccount ['Account_Sex']==0) echo '女'; else echo '男'; ?></p>
+<p> <span class='titles'>联系方式：</span> <?php  echo $this->useraccount ['Account_Email']; ?>  <?php  echo $this->useraccount ['Account_mobile']; ?>  </p>
+
+
+<p><span class='titles'>成交数量： </span><?php  echo $this->useralone ['Submittedmission_counts']; ?>  </p>
+<p><span class='titles'>综合评分：</span> <?php  echo $this->useralone ['User_Averagescore']; ?>  </p>
+<p><span class='titles'>自我评价 ： </span><?php  echo $this->useraccount ['Self_Discription']; ?>  </p>
